@@ -16,7 +16,7 @@ namespace CCSFileExplorerWV
 			uint size = this.Size - 1U;
 			this.Data = new byte[size * 4U];
 			s.Read(this.Data, 0, (int)(size * 4U));
-			this.Name = Block.ReadFixedLenString(this.Data, 0, 32);
+			this.Name = Block.ReadFixedLenString(this.Data, 0, 0x20);
 			this.Unknown = new List<uint>();
 			int i = 0;
 			while ((long)i < (long)((ulong)(size - 8U)))

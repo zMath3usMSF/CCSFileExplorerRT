@@ -18,12 +18,12 @@ namespace CCSFileExplorerWV
 		// Token: 0x06000031 RID: 49 RVA: 0x00003564 File Offset: 0x00001764
 		public BlockDefault(Stream s)
 		{
-			this.Size = Block.ReadUInt32(s);
-			uint size = this.Size - 1U;
-			this.ID = Block.ReadUInt32(s);
-			this.Data = new byte[size * 4U];
-			s.Read(this.Data, 0, (int)(size * 4U));
-		}
+            this.Size = Block.ReadUInt32(s);
+            uint size = this.Size - 1U;
+            this.ID = Block.ReadUInt32(s);
+            this.Data = new byte[size * 4U];
+            s.Read(this.Data, 0, (int)(size * 4U));
+        }
 
 		// Token: 0x06000032 RID: 50 RVA: 0x000035B8 File Offset: 0x000017B8
 		public override TreeNode ToNode()

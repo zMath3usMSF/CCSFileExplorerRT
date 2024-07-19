@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using CCSFileExplorerWV.CCSF;
+using static OpenTK.Graphics.OpenGL.GL;
 
 namespace CCSFileExplorerWV
 {
@@ -25,19 +26,29 @@ namespace CCSFileExplorerWV
 			this.Size = Block.ReadUInt32(s);
 			this.ID = Block.ReadUInt32(s);
 			uint size = this.Size - 1U;
-			MemoryStream i = new MemoryStream();
-			uint j = 0U;
-			uint u;
-			while (!Block.isValidBlockType(u = Block.ReadUInt32(s)) && j++ < size)
+			long safe = s.Position;
+			s.Seek(4, SeekOrigin.Current);
+			int type = s.ReadByte();
+			int unk = s.ReadByte();
+			if(type == 4 && unk != 0)
 			{
-				i.Write(BitConverter.GetBytes(u), 0, 4);
-			}
-			s.Seek(-4L, SeekOrigin.Current);
-			this.Data = i.ToArray();
+				uint meshCount = (uint)s.ReadByte();
+				uint sub = meshCount * 0x3C;
+				uint finalSize = size * 4U;
+				s.Seek(safe, SeekOrigin.Begin);
+                this.Data = new byte[finalSize - sub];
+                s.Read(this.Data, 0, (int)(finalSize - sub));
+            }
+            else
+			{
+                s.Seek(safe, SeekOrigin.Begin);
+                this.Data = new byte[size * 4U];
+                s.Read(this.Data, 0, (int)(size * 4U));
+            }
 		}
 
-		// Token: 0x06000027 RID: 39 RVA: 0x00002D78 File Offset: 0x00000F78
-		public override TreeNode ToNode()
+        // Token: 0x06000027 RID: 39 RVA: 0x00002D78 File Offset: 0x00000F78
+        public override TreeNode ToNode()
 		{
 			return new TreeNode(string.Concat(new string[]
 			{
@@ -53,13 +64,26 @@ namespace CCSFileExplorerWV
 		public override void WriteBlock(Stream s)
 		{
 			Block.WriteUInt32(s, this.BlockID);
-			Block.WriteUInt32(s, (uint)(this.Data.Length / 4 + 1));
-			Block.WriteUInt32(s, this.ID);
-			s.Write(this.Data, 0, this.Data.Length);
-		}
+            int type = this.Data[4];
+            int unk = this.Data[5];
+            if (type == 4 && unk != 0)
+            {
+                uint meshCount = this.Data[6];
+                uint sub = meshCount * 0x3C;
+                uint size = (uint)this.Data.Length + sub;
+                Block.WriteUInt32(s, size / 4 + 1);
+            }
+            else
+            {
+                uint size = (uint)this.Data.Length;
+                Block.WriteUInt32(s, size / 4 + 1);
+            }
+            Block.WriteUInt32(s, this.ID);
+            s.Write(this.Data, 0, this.Data.Length);
+        }
 
-		// Token: 0x06000029 RID: 41 RVA: 0x00002E30 File Offset: 0x00001030
-		public override string ToString()
+        // Token: 0x06000029 RID: 41 RVA: 0x00002E30 File Offset: 0x00001030
+        public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine("Found " + this.models.Count.ToString() + " models:");

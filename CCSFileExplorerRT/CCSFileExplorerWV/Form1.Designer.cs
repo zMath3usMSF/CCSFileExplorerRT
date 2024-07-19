@@ -19,6 +19,7 @@ namespace CCSFileExplorerWV
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.pb1 = new System.Windows.Forms.ToolStripProgressBar();
             this.status = new System.Windows.Forms.ToolStripStatusLabel();
@@ -38,10 +39,12 @@ namespace CCSFileExplorerWV
             this.selectedBlobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportRawToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importRawToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.exportAsBitmapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInImageImporterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToObjToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exportarArquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importarArquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractParentNodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractAllModelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractAllTexturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +56,8 @@ namespace CCSFileExplorerWV
             this.línguaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inglêsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.portuguêsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sobreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
@@ -68,7 +73,7 @@ namespace CCSFileExplorerWV
             this.rtb1 = new System.Windows.Forms.RichTextBox();
             this.fbd = new System.Windows.Forms.FolderBrowserDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.sobreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -86,6 +91,11 @@ namespace CCSFileExplorerWV
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic2)).BeginInit();
             this.SuspendLayout();
+            // 
+            // toolStripMenuItem2
+            // 
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            toolStripMenuItem2.Size = new System.Drawing.Size(242, 6);
             // 
             // statusStrip1
             // 
@@ -117,7 +127,8 @@ namespace CCSFileExplorerWV
             this.fileFormatToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.línguaToolStripMenuItem,
-            this.sobreToolStripMenuItem});
+            this.sobreToolStripMenuItem,
+            this.reloadToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(571, 24);
@@ -220,10 +231,13 @@ namespace CCSFileExplorerWV
             this.selectedBlobToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportRawToolStripMenuItem,
             this.importRawToolStripMenuItem,
-            this.toolStripMenuItem2,
+            toolStripMenuItem2,
             this.exportAsBitmapToolStripMenuItem,
             this.openInImageImporterToolStripMenuItem,
-            this.exportToObjToolStripMenuItem});
+            this.exportToObjToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.exportarArquivoToolStripMenuItem,
+            this.importarArquivoToolStripMenuItem});
             this.selectedBlobToolStripMenuItem.Name = "selectedBlobToolStripMenuItem";
             this.selectedBlobToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.selectedBlobToolStripMenuItem.Text = "Ação";
@@ -231,42 +245,56 @@ namespace CCSFileExplorerWV
             // exportRawToolStripMenuItem
             // 
             this.exportRawToolStripMenuItem.Name = "exportRawToolStripMenuItem";
-            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.exportRawToolStripMenuItem.Text = "Exportar DADOS";
             this.exportRawToolStripMenuItem.Click += new System.EventHandler(this.exportRawToolStripMenuItem_Click);
             // 
             // importRawToolStripMenuItem
             // 
             this.importRawToolStripMenuItem.Name = "importRawToolStripMenuItem";
-            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.importRawToolStripMenuItem.Text = "Importar DADOS";
             this.importRawToolStripMenuItem.Click += new System.EventHandler(this.importRawToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // exportAsBitmapToolStripMenuItem
             // 
             this.exportAsBitmapToolStripMenuItem.Name = "exportAsBitmapToolStripMenuItem";
-            this.exportAsBitmapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportAsBitmapToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.exportAsBitmapToolStripMenuItem.Text = "Exportar Textura";
             this.exportAsBitmapToolStripMenuItem.Click += new System.EventHandler(this.exportAsBitmapToolStripMenuItem_Click);
             // 
             // openInImageImporterToolStripMenuItem
             // 
             this.openInImageImporterToolStripMenuItem.Name = "openInImageImporterToolStripMenuItem";
-            this.openInImageImporterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openInImageImporterToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.openInImageImporterToolStripMenuItem.Text = "Abrir no Importador";
             this.openInImageImporterToolStripMenuItem.Click += new System.EventHandler(this.openInImageImporterToolStripMenuItem_Click);
             // 
             // exportToObjToolStripMenuItem
             // 
             this.exportToObjToolStripMenuItem.Name = "exportToObjToolStripMenuItem";
-            this.exportToObjToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportToObjToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.exportToObjToolStripMenuItem.Text = "Exportar para obj...";
             this.exportToObjToolStripMenuItem.Click += new System.EventHandler(this.exportToObjToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(242, 6);
+            // 
+            // exportarArquivoToolStripMenuItem
+            // 
+            this.exportarArquivoToolStripMenuItem.Name = "exportarArquivoToolStripMenuItem";
+            this.exportarArquivoToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.exportarArquivoToolStripMenuItem.Text = "Exportar Arquivo (Experimental)";
+            this.exportarArquivoToolStripMenuItem.Click += new System.EventHandler(this.exportarArquivoToolStripMenuItem_Click);
+            // 
+            // importarArquivoToolStripMenuItem
+            // 
+            this.importarArquivoToolStripMenuItem.Name = "importarArquivoToolStripMenuItem";
+            this.importarArquivoToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.importarArquivoToolStripMenuItem.Text = "Importar Arquivo (Experimental)";
+            this.importarArquivoToolStripMenuItem.Click += new System.EventHandler(this.importarArquivoToolStripMenuItem_Click);
             // 
             // extractParentNodeToolStripMenuItem
             // 
@@ -280,14 +308,14 @@ namespace CCSFileExplorerWV
             // extractAllModelsToolStripMenuItem
             // 
             this.extractAllModelsToolStripMenuItem.Name = "extractAllModelsToolStripMenuItem";
-            this.extractAllModelsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.extractAllModelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.extractAllModelsToolStripMenuItem.Text = "Extrair Modelos";
             this.extractAllModelsToolStripMenuItem.Click += new System.EventHandler(this.extractAllModelsToolStripMenuItem_Click);
             // 
             // extractAllTexturesToolStripMenuItem
             // 
             this.extractAllTexturesToolStripMenuItem.Name = "extractAllTexturesToolStripMenuItem";
-            this.extractAllTexturesToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.extractAllTexturesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.extractAllTexturesToolStripMenuItem.Text = "Extrair Texturas";
             this.extractAllTexturesToolStripMenuItem.Click += new System.EventHandler(this.extractAllTexturesToolStripMenuItem_Click);
             // 
@@ -360,6 +388,20 @@ namespace CCSFileExplorerWV
             this.portuguêsToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.portuguêsToolStripMenuItem.Text = "Português";
             this.portuguêsToolStripMenuItem.Click += new System.EventHandler(this.portuguêsToolStripMenuItem_Click);
+            // 
+            // sobreToolStripMenuItem
+            // 
+            this.sobreToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.sobreToolStripMenuItem.Name = "sobreToolStripMenuItem";
+            this.sobreToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.sobreToolStripMenuItem.Text = "Sobre";
+            this.sobreToolStripMenuItem.Click += new System.EventHandler(this.sobreToolStripMenuItem_Click);
+            // 
+            // reloadToolStripMenuItem
+            // 
+            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.reloadToolStripMenuItem.Text = "Reload";
             // 
             // splitContainer1
             // 
@@ -528,13 +570,6 @@ namespace CCSFileExplorerWV
             this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // sobreToolStripMenuItem
-            // 
-            this.sobreToolStripMenuItem.Name = "sobreToolStripMenuItem";
-            this.sobreToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
-            this.sobreToolStripMenuItem.Text = "Sobre";
-            this.sobreToolStripMenuItem.Click += new System.EventHandler(this.sobreToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -635,9 +670,6 @@ namespace CCSFileExplorerWV
 		// Token: 0x04000059 RID: 89
 		private global::System.Windows.Forms.ToolStripMenuItem exportRawToolStripMenuItem;
 
-		// Token: 0x0400005A RID: 90
-		private global::System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-
 		// Token: 0x0400005B RID: 91
 		private global::System.Windows.Forms.ToolStripMenuItem exportAsBitmapToolStripMenuItem;
 
@@ -722,5 +754,9 @@ namespace CCSFileExplorerWV
 		// Token: 0x04000076 RID: 118
 		public global::System.Windows.Forms.ToolStripMenuItem portuguêsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sobreToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportarArquivoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importarArquivoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
