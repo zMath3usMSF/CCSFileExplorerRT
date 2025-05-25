@@ -30,7 +30,7 @@ namespace CCSFileExplorerWV
 			s.Seek(4, SeekOrigin.Current);
 			int type = s.ReadByte();
 			int unk = s.ReadByte();
-			if(type == 4 && unk != 0)
+			if(type == 4)
 			{
 				uint meshCount = (uint)s.ReadByte();
 				uint sub = meshCount * 0x3C;
@@ -66,7 +66,7 @@ namespace CCSFileExplorerWV
 			Block.WriteUInt32(s, this.BlockID);
             int type = this.Data[4];
             int unk = this.Data[5];
-            if (type == 4 && unk != 0)
+			if (type == 4 && Block0001.fileInfo == 0x123)
             {
                 uint meshCount = this.Data[6];
                 uint sub = meshCount * 0x3C;

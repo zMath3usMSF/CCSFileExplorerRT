@@ -42,7 +42,23 @@ namespace CCSFileExplorerWV
 		public override void WriteBlock(Stream s)
 		{
 			Block.WriteUInt32(s, this.BlockID);
-			Block.WriteUInt32(s, (uint)(this.Data.Length / 4 + 1));
+			/*if ((BlockID & 0xFFFF) == 0x0400)
+			{
+				MemoryStream memoryStream = new MemoryStream(Data);
+				byte[] initData = new byte[8];
+				memoryStream.Read(initData, 0, 8);
+				byte[] finalData = new byte[Data.Length - 0xC];
+				memoryStream.Seek(0xC, SeekOrigin.Begin);
+				memoryStream.Read(finalData, 0, (int)(memoryStream.Length - 0xC));
+				MemoryStream bMS = new MemoryStream();
+				BinaryWriter bw = new BinaryWriter(bMS);
+				bw.Write(initData);
+				bw.Write((ushort)0x3C0);
+				bw.Write((ushort)0x1F0);
+				bw.Write(finalData);
+				Data = bMS.ToArray();
+			}*/
+            Block.WriteUInt32(s, (uint)(this.Data.Length / 4 + 1));
 			Block.WriteUInt32(s, this.ID);
 			s.Write(this.Data, 0, this.Data.Length);
 		}

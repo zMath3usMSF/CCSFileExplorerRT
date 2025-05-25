@@ -55,12 +55,12 @@ namespace CCSFileExplorerWV
 				int k = 0;
 				while ((long)k < (long)((ulong)this.toc.ObjCount))
 				{
-					if ((int)(this.toc.indexes[k] - 1) == j)
+					if ((int)(this.toc.indexes[k]) == j)
 					{
 						ObjectEntry obj = new ObjectEntry(this.toc.objnames[k]);
-						for (int l = 2; l < this.blocks.Count; l++)
+						for (int l = 0; l < this.blocks.Count; l++)
 						{
-							if ((ulong)(this.blocks[l].ID - 1U) == (ulong)((long)k))
+							if ((ulong)(this.blocks[l].ID) == (ulong)((long)k))
 							{
 								obj.blocks.Add(this.blocks[l]);
 								this.blocks[l].ObjectEntry = obj;

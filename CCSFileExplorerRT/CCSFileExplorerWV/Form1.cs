@@ -29,16 +29,20 @@ namespace CCSFileExplorerWV
 			{
 				this.tabControl1.TabPages.Remove(this.tabPage2);
 			}
+            if (this.tabControl1.TabPages.Contains(this.tabPage4))
+            {
+                this.tabControl1.TabPages.Remove(this.tabPage4);
+            }
             treeView1.MouseClick += treeView1_MouseClick;
-            base.SetStyle(ControlStyles.Opaque | ControlStyles.AllPaintingInWmPaint, true);
+			base.SetStyle(ControlStyles.Opaque | ControlStyles.AllPaintingInWmPaint, true);
 		}
 		public int countName = 0;
-        public int previousID = 0;
+		public int previousID = 0;
 		public int previousIDdif = 0;
 		public List<List<int>> skipID = new List<List<int>>();
 
-        // Token: 0x0600005B RID: 91 RVA: 0x000046F4 File Offset: 0x000028F4
-        private void unpackBINToolStripMenuItem_Click(object sender, EventArgs e)
+		// Token: 0x0600005B RID: 91 RVA: 0x000046F4 File Offset: 0x000028F4
+		private void unpackBINToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog d = new OpenFileDialog();
 			d.Filter = "*.ccs|*.ccs|*.bin|*.bin";
@@ -93,9 +97,9 @@ namespace CCSFileExplorerWV
 				this.portuguêsToolStripMenuItem.Text = "Portuguese";
 				this.Text = "CCSFile Explorer  / Modified by Raiden and zMath3usMSF";
 				this.sobreToolStripMenuItem.Text = "About";
-                this.exportarArquivoToolStripMenuItem.Text = "Export Archive (Experimental)";
-                this.importarArquivoToolStripMenuItem.Text = "Import Archive (Experimental)";
-                return;
+				this.exportarArquivoToolStripMenuItem.Text = "Export Archive (Experimental)";
+				this.importarArquivoToolStripMenuItem.Text = "Import Archive (Experimental)";
+				return;
 			}
 			if (this.portuguêsToolStripMenuItem.Checked)
 			{
@@ -130,10 +134,10 @@ namespace CCSFileExplorerWV
 				this.inglêsToolStripMenuItem.Text = "Inglês";
 				this.portuguêsToolStripMenuItem.Text = "Português";
 				this.Text = "CCSFile Explorer  / Modificado por Raiden e zMath3usMSF";
-                this.sobreToolStripMenuItem.Text = "Sobre";
-                this.exportarArquivoToolStripMenuItem.Text = "Exportar Arquivo (Experimental)";
-                this.importarArquivoToolStripMenuItem.Text = "Importar Arquivo (Experimental)";
-            }
+				this.sobreToolStripMenuItem.Text = "Sobre";
+				this.exportarArquivoToolStripMenuItem.Text = "Exportar Arquivo (Experimental)";
+				this.importarArquivoToolStripMenuItem.Text = "Importar Arquivo (Experimental)";
+			}
 		}
 
 		// Token: 0x0600005D RID: 93 RVA: 0x00004B8C File Offset: 0x00002D8C
@@ -174,47 +178,26 @@ namespace CCSFileExplorerWV
 		// Token: 0x0600005F RID: 95 RVA: 0x00004CB0 File Offset: 0x00002EB0
 		private void saveCCSFileToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Path.GetExtension(this.lastExtension) == ".tmp")
-			{
-                if (this.ccsfile == null)
-                {
-                    return;
-                }
-                if (!this.ccsfile.isvalid)
-                {
-                    MessageBox.Show("Você está tentando salvar esse arquivo como inválido.");
-                    return;
-                }
-                SaveFileDialog d = new SaveFileDialog();
-                d.Filter = "*.tmp|*.tmp";
-                d.FileName = this.ccsfile.header.Name + ".tmp";
-                if (d.ShowDialog() == DialogResult.OK)
-                {
-                    this.ccsfile.Save(d.FileName);
-                    this.RefreshStuff();
-                    MessageBox.Show("Feito.");
-                }
+			string ext = Path.GetExtension(this.lastExtension);
+            if (this.ccsfile == null)
+            {
+                return;
             }
-			else
-			{
-                if (this.ccsfile == null)
-                {
-                    return;
-                }
-                if (!this.ccsfile.isvalid)
-                {
-                    MessageBox.Show("Você está tentando salvar esse arquivo como inválido.");
-                    return;
-                }
-                string ccsFilePath = Path.Combine(lastfolder, Path.GetFileNameWithoutExtension(this.ccsFileName.ToUpper()) + ".CCS");
-
-                this.ccsfile.Rebuild();
-                new FileInfo(ccsFilePath);
-                BINHelper.Repackccs(ccsFilePath, this.ccsfile.raw, this.ccsfile.header.Name);
+            if (!this.ccsfile.isvalid)
+            {
+                MessageBox.Show("Você está tentando salvar esse arquivo como inválido.");
+                return;
+            }
+            SaveFileDialog d = new SaveFileDialog();
+            d.Filter = "*." + ext + "|*." + ext;
+            d.FileName = this.ccsfile.header.Name + ext;
+            if (d.ShowDialog() == DialogResult.OK)
+            {
+                this.ccsfile.Save(d.FileName);
                 this.RefreshStuff();
                 MessageBox.Show("Feito.");
             }
-		}
+        }
 
 		// Token: 0x06000060 RID: 96 RVA: 0x00004D3C File Offset: 0x00002F3C
 		private void exportAsBitmapToolStripMenuItem_Click(object sender, EventArgs e)
@@ -312,7 +295,11 @@ namespace CCSFileExplorerWV
 			{
 				this.tabControl1.TabPages.Remove(this.tabPage3);
 			}
-			this.hb1.ByteProvider = new DynamicByteProvider(new byte[0]);
+            if (this.tabControl1.TabPages.Contains(this.tabPage4))
+            {
+                this.tabControl1.TabPages.Remove(this.tabPage4);
+            }
+            this.hb1.ByteProvider = new DynamicByteProvider(new byte[0]);
 			this.timer1.Enabled = false;
 			this.pic1.Image = null;
 			this.pic2.Image = null;
@@ -327,7 +314,7 @@ namespace CCSFileExplorerWV
 				TreeNode file = obj.Parent;
 				ObjectEntry entryo = this.ccsfile.files[file.Index].objects[obj.Index];
 				this.hb1.ByteProvider = new DynamicByteProvider(entryo.blocks[sel.Index].FullBlockData);
-				if (entryo.blocks[sel.Index].BlockID == 3435923456U)
+				if ((entryo.blocks[sel.Index].BlockID & 0xFFFF) == 0x0800)
 				{
 					this.currModel = (Block0800)entryo.blocks[sel.Index];
 					this.currModel.ProcessData();
@@ -348,11 +335,16 @@ namespace CCSFileExplorerWV
 					this.tabControl1.TabPages.Add(this.tabPage3);
 					this.tabControl1.SelectedTab = this.tabPage3;
 				}
+				if((entryo.blocks[sel.Index].BlockID & 0xFFFF) == 0x2400)
+				{
+                    this.tabControl1.TabPages.Add(this.tabPage4);
+                    this.tabControl1.SelectedTab = this.tabPage4;
+                }
 			}
 			if (sel.Level == 1)
 			{
 				string ext = Path.GetExtension(sel.Text).ToLower();
-				if (ext != null && ext == ".bmp")
+				if (ext != null && (ext == ".bmp" || ext == ".tif" || ext == ".tga"))
 				{
 					this.comboBox1.Items.Clear();
 					this.currPalettes = new List<Block>();
@@ -816,11 +808,11 @@ namespace CCSFileExplorerWV
 				/*BINHelper.UnpackToFolder(d.FileName, this.lastfolder, null, null);*/
 				string tmpFilePath = Path.Combine(lastfolder, Path.GetFileNameWithoutExtension(d.FileName) + ".tmp");
 
-                this.ccsfile = new CCSFile(BINHelper.UnpackTo(d.FileName, this.lastfolder, null, null), this.SelectedFileFormat);
-                this.ccsFileName = d.SafeFileName.Remove(d.SafeFileName.Length - 4, 4);
-                this.AddRecent("tmpFilePath");
-                this.RefreshStuff();
-            }
+				this.ccsfile = new CCSFile(BINHelper.UnpackTo(d.FileName, this.lastfolder, null, null), this.SelectedFileFormat);
+				this.ccsFileName = d.SafeFileName.Remove(d.SafeFileName.Length - 4, 4);
+				this.AddRecent("tmpFilePath");
+				this.RefreshStuff();
+			}
 		}
 
 		// Token: 0x0400003B RID: 59
@@ -855,104 +847,104 @@ namespace CCSFileExplorerWV
 		// Token: 0x04000044 RID: 68
 		public string infilename;
 
-        private void sobreToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.inglêsToolStripMenuItem.Checked)
+		private void sobreToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (this.inglêsToolStripMenuItem.Checked)
 			{
-                MessageBox.Show("CCSFileExplorerRT version 3.0, a fork of CCSFileExplorerWV made by WarrantyVoider.\n\nFork by Bit.Raiden and zMath3usMSF.");
-            }
+				MessageBox.Show("CCSFileExplorerRT version 3.0, a fork of CCSFileExplorerWV made by WarrantyVoider.\n\nFork by Bit.Raiden and zMath3usMSF.");
+			}
 			else
 			{
 				MessageBox.Show("CCSFileExplorerRT versão 3.0, um fork do CCSFileExplorerWV feito por WarrantyVoider.\n\nFork por Bit.Raiden e zMath3usMSF.");
 			}
-        }
-        private void treeView1_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
-            {
-                TreeNode selectedNode = treeView1.GetNodeAt(e.X, e.Y);
+		}
+		private void treeView1_MouseClick(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
+			{
+				TreeNode selectedNode = treeView1.GetNodeAt(e.X, e.Y);
 
-                if (selectedNode != null)
-                {
-                    treeView1.SelectedNode = selectedNode;
-                }
-            }
+				if (selectedNode != null)
+				{
+					treeView1.SelectedNode = selectedNode;
+				}
+			}
 
-            if (e.Button == MouseButtons.Right)
-            {
-                if (treeView1.SelectedNode != null && treeView1.SelectedNode.Parent == null) // Verifica se é um nó pai
-                {
-                    int selectedIndex = treeView1.SelectedNode.Index;
+			if (e.Button == MouseButtons.Right)
+			{
+				if (treeView1.SelectedNode != null && treeView1.SelectedNode.Parent == null) // Verifica se é um nó pai
+				{
+					int selectedIndex = treeView1.SelectedNode.Index;
 
-                    string selectedNodeText = treeView1.SelectedNode.Text;
+					string selectedNodeText = treeView1.SelectedNode.Text;
 
-                    ContextMenuStrip contextMenu = new ContextMenuStrip();
+					ContextMenuStrip contextMenu = new ContextMenuStrip();
 
-                    ToolStripMenuItem exportMenuItem = new ToolStripMenuItem("Exportar");
-                    exportMenuItem.Click += (senderObj, args) =>
-                    {
-                        /*Exportar(selectedIndex, selectedNodeText);*/
-                    };
+					ToolStripMenuItem exportMenuItem = new ToolStripMenuItem("Exportar");
+					exportMenuItem.Click += (senderObj, args) =>
+					{
+						/*Exportar(selectedIndex, selectedNodeText);*/
+					};
 
-                    contextMenu.Items.Add(exportMenuItem);
+					contextMenu.Items.Add(exportMenuItem);
 
-                    contextMenu.Show(treeView1, e.Location);
-                }
-                if (treeView1.SelectedNode != null && treeView1.SelectedNode.Level == 2) // Verifica se é um nó
-                {
-                    int selectedFile = treeView1.SelectedNode.Parent.Index;
+					contextMenu.Show(treeView1, e.Location);
+				}
+				if (treeView1.SelectedNode != null && treeView1.SelectedNode.Level == 2) // Verifica se é um nó
+				{
+					int selectedFile = treeView1.SelectedNode.Parent.Index;
 
-                    int selectedObject = treeView1.SelectedNode.Index;
+					int selectedObject = treeView1.SelectedNode.Index;
 
-                    string selectedNodeText = treeView1.SelectedNode.Text;
+					string selectedNodeText = treeView1.SelectedNode.Text;
 
-                    ContextMenuStrip contextMenu = new ContextMenuStrip();
+					ContextMenuStrip contextMenu = new ContextMenuStrip();
 
-                    ToolStripMenuItem deletMenuItem = new ToolStripMenuItem("Deletar");
-                    deletMenuItem.Click += (senderObj, args) =>
-                    {
-                        Deletar(selectedFile, selectedObject);
-                    };
+					ToolStripMenuItem deletMenuItem = new ToolStripMenuItem("Deletar");
+					deletMenuItem.Click += (senderObj, args) =>
+					{
+						Deletar(selectedFile, selectedObject);
+					};
 
-                    contextMenu.Items.Add(deletMenuItem);
+					contextMenu.Items.Add(deletMenuItem);
 
-                    contextMenu.Show(treeView1, e.Location);
-                }
-            }
-        }
+					contextMenu.Show(treeView1, e.Location);
+				}
+			}
+		}
 		public void Deletar(int selectedFile, int selectedObject)
 		{
-            List<int> indicesToRemove = new List<int>();
+			List<int> indicesToRemove = new List<int>();
 
-            for (int i = 0; i < this.ccsfile.blocks.Count; i++)
-            {
-                if (this.ccsfile.blocks[i].ID == this.ccsfile.files[selectedFile].objects[selectedObject].blocks[0].ID)
-                {
-                    indicesToRemove.Add(i);
-                }
-            }
+			for (int i = 0; i < this.ccsfile.blocks.Count; i++)
+			{
+				if (this.ccsfile.blocks[i].ID == this.ccsfile.files[selectedFile].objects[selectedObject].blocks[0].ID)
+				{
+					indicesToRemove.Add(i);
+				}
+			}
 
-            for (int i = indicesToRemove.Count - 1; i >= 0; i--)
-            {
-                this.ccsfile.blocks.RemoveAt(indicesToRemove[i]);
-            }
-            this.ccsfile.files[selectedFile].objects[selectedObject].blocks.Clear();
-        }
+			for (int i = indicesToRemove.Count - 1; i >= 0; i--)
+			{
+				this.ccsfile.blocks.RemoveAt(indicesToRemove[i]);
+			}
+			this.ccsfile.files[selectedFile].objects[selectedObject].blocks.Clear();
+		}
 
-        private void exportarArquivoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+		private void exportarArquivoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
 			int count = treeView1.SelectedNode.Nodes.Count;
 			string fileName = treeView1.SelectedNode.Text;
 			string[] folders = fileName.Split('\\');
 			List<byte> bytes = new List<byte>();
-            string init = "";
+			string init = "";
 			string type = "";
 			if(folders.Length > 1)
 			{
-                type = folders[folders.Length - 2];
-            }
+				type = folders[folders.Length - 2];
+			}
 
-            switch (type)
+			switch (type)
 			{
 				case "tex":
 					init = "TEX_";
@@ -965,27 +957,27 @@ namespace CCSFileExplorerWV
 					{
 						if(treeView1.SelectedNode.Nodes[i].Text.Contains("trall") == true)
 						{
-                            bytes.AddRange(BitConverter.GetBytes(Convert.ToUInt32(3)));
+							bytes.AddRange(BitConverter.GetBytes(Convert.ToUInt32(3)));
 							def = true;
-                            break;
+							break;
 						}
 					}
 					if(def == false)
 					{
-                        bytes.AddRange(BitConverter.GetBytes(Convert.ToUInt32(1)));
-                    }
-                    break;
+						bytes.AddRange(BitConverter.GetBytes(Convert.ToUInt32(1)));
+					}
+					break;
 				case "anm":
 					init = "ANM_";
-                    bytes.AddRange(BitConverter.GetBytes(Convert.ToUInt32(2)));
-                    break;
-                case "anmmax":
+					bytes.AddRange(BitConverter.GetBytes(Convert.ToUInt32(2)));
+					break;
+				case "anmmax":
 					init = "ANM_";
-                    bytes.AddRange(BitConverter.GetBytes(Convert.ToUInt32(2)));
-                    break;
-                default:
-                    bytes.AddRange(BitConverter.GetBytes(Convert.ToUInt32(255)));
-                    break;
+					bytes.AddRange(BitConverter.GetBytes(Convert.ToUInt32(2)));
+					break;
+				default:
+					bytes.AddRange(BitConverter.GetBytes(Convert.ToUInt32(255)));
+					break;
 			}
 			bytes.AddRange(Encoding.GetEncoding("shift-jis").GetBytes(fileName));
 			bytes.Add(0x0);
@@ -993,84 +985,84 @@ namespace CCSFileExplorerWV
 			if(type == "tex" && treeView1.SelectedNode.Nodes[0].Text.Contains("TEX_"))
 			{
 				List<string> strings = new List<string>();
-                for (int i = 0; i < count; i++)
-                {
-                    if(treeView1.SelectedNode.Nodes[i].Text.Contains("TEX_"))
+				for (int i = 0; i < count; i++)
+				{
+					if(treeView1.SelectedNode.Nodes[i].Text.Contains("TEX_"))
 					{
 						strings.Add(treeView1.SelectedNode.Nodes[i].Text);
 					}
 					else
 					{
-                        strings.Insert(0, treeView1.SelectedNode.Nodes[i].Text);
-                    }
-                }
-                for (int i = 0; i < count; i++)
-                {
-                    bytes.AddRange(Encoding.GetEncoding("shift-jis").GetBytes(strings[i]));
-                    bytes.Add(0x0);
-                }
-            }
+						strings.Insert(0, treeView1.SelectedNode.Nodes[i].Text);
+					}
+				}
+				for (int i = 0; i < count; i++)
+				{
+					bytes.AddRange(Encoding.GetEncoding("shift-jis").GetBytes(strings[i]));
+					bytes.Add(0x0);
+				}
+			}
 			else
 			{
-                for (int i = 0; i < count; i++)
-                {
-                    bytes.AddRange(Encoding.GetEncoding("shift-jis").GetBytes(treeView1.SelectedNode.Nodes[i].Text));
-                    bytes.Add(0x0);
-                }
-            }
-            int selectedFile = treeView1.SelectedNode.Index;
+				for (int i = 0; i < count; i++)
+				{
+					bytes.AddRange(Encoding.GetEncoding("shift-jis").GetBytes(treeView1.SelectedNode.Nodes[i].Text));
+					bytes.Add(0x0);
+				}
+			}
+			int selectedFile = treeView1.SelectedNode.Index;
 			int totalBlocks = 0;
 			for (int i = 0; i < ccsfile.files[selectedFile].objects.Count; i++)
 			{
 				totalBlocks += ccsfile.files[selectedFile].objects[i].blocks.Count;
-            }
+			}
 			bytes.AddRange(BitConverter.GetBytes(Convert.ToUInt32(totalBlocks)));
 			if (type == "tex" && ccsfile.files[selectedFile].objects[0].blocks[0].BlockID == 0xCCCC0300)
 			{
 				List<byte> bytes1 = new List<byte>();
-                for (int i = 0; i < ccsfile.files[selectedFile].objects.Count; i++)
-                {
-                    for (int j = 0; j < ccsfile.files[selectedFile].objects[i].blocks.Count; j++)
-                    {
+				for (int i = 0; i < ccsfile.files[selectedFile].objects.Count; i++)
+				{
+					for (int j = 0; j < ccsfile.files[selectedFile].objects[i].blocks.Count; j++)
+					{
 						if(ccsfile.files[selectedFile].objects[i].blocks[j].BlockID == 0xCCCC0300)
 						{
-                            bytes1.AddRange(ccsfile.files[selectedFile].objects[i].blocks[j].FullBlockData);
-                        }
-                        else
+							bytes1.AddRange(ccsfile.files[selectedFile].objects[i].blocks[j].FullBlockData);
+						}
+						else
 						{
-                            bytes1.InsertRange(0, ccsfile.files[selectedFile].objects[i].blocks[j].FullBlockData);
+							bytes1.InsertRange(0, ccsfile.files[selectedFile].objects[i].blocks[j].FullBlockData);
 
-                        }
-                    }
-                }
+						}
+					}
+				}
 				bytes.AddRange(bytes1.ToArray());
-            }
+			}
 			else
 			{
-                for (int i = 0; i < ccsfile.files[selectedFile].objects.Count; i++)
-                {
-                    for (int j = 0; j < ccsfile.files[selectedFile].objects[i].blocks.Count; j++)
-                    {
-                        bytes.AddRange(ccsfile.files[selectedFile].objects[i].blocks[j].FullBlockData);
-                    }
-                }
-            }
-            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string lastPart = folders[folders.Length - 1];
+				for (int i = 0; i < ccsfile.files[selectedFile].objects.Count; i++)
+				{
+					for (int j = 0; j < ccsfile.files[selectedFile].objects[i].blocks.Count; j++)
+					{
+						bytes.AddRange(ccsfile.files[selectedFile].objects[i].blocks[j].FullBlockData);
+					}
+				}
+			}
+			string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+			string lastPart = folders[folders.Length - 1];
 			string filePath = "";
-            if (folders.Length > 1)
-            {
-                filePath = Path.Combine(desktop, init + Path.GetFileNameWithoutExtension(lastPart) + ".pak");
-            }
+			if (folders.Length > 1)
+			{
+				filePath = Path.Combine(desktop, init + Path.GetFileNameWithoutExtension(lastPart) + ".pak");
+			}
 			else
 			{
-                filePath = Path.Combine(desktop, fileName + ".pak");
-            }
-            File.WriteAllBytes(filePath, bytes.ToArray());
-        }
+				filePath = Path.Combine(desktop, fileName + ".pak");
+			}
+			File.WriteAllBytes(filePath, bytes.ToArray());
+		}
 
-        private void importarArquivoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+		private void importarArquivoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.Filter = "Bloco de Arquivo (*.pak)|*.pak";
 			ofd.Multiselect = true;
@@ -1079,181 +1071,187 @@ namespace CCSFileExplorerWV
 				string[] filePath = ofd.FileNames;
 				ReadFileBlock(filePath);
 			}
-        }
+		}
 
 		private void ReadFileBlock(string[] filePath)
 		{
 			for(int i = 0; i < filePath.Length; i++)
 			{
-                FileStream fileStream = new FileStream(filePath[i], (FileMode)FileAccess.ReadWrite);
+				FileStream fileStream = new FileStream(filePath[i], (FileMode)FileAccess.ReadWrite);
 
-                countName = 0;
-                int initialCount = ccsfile.blocks.Count;
+				countName = 0;
+				int initialCount = ccsfile.blocks.Count;
 
-                byte[] typeBytes = new byte[4];
-                fileStream.Read(typeBytes, 0, typeBytes.Length);
-                int type = BitConverter.ToInt32(typeBytes, 0);
+				byte[] typeBytes = new byte[4];
+				fileStream.Read(typeBytes, 0, typeBytes.Length);
+				int type = BitConverter.ToInt32(typeBytes, 0);
 
-                string fileName = ReadString(fileStream);
+				string fileName = ReadString(fileStream);
 
-                fileStream.Read(typeBytes, 0, typeBytes.Length);
-                int objectsCount = BitConverter.ToInt32(typeBytes, 0);
+				fileStream.Read(typeBytes, 0, typeBytes.Length);
+				int objectsCount = BitConverter.ToInt32(typeBytes, 0);
 
                 List<string> objectsNames = new List<string>();
-                for (int j = 0; j < objectsCount; j++)
-                {
-                    string objectName = ReadString(fileStream);
-                    objectsNames.Add(objectName);
-                }
-                treeView1.Nodes[0].Nodes.Add(fileName);
-                TreeNode file = treeView1.Nodes[0].Nodes[treeView1.Nodes[0].Nodes.Count - 1];
-                for (int j = 0; j < objectsCount; j++)
-                {
-                    TreeNode objectt = new TreeNode(objectsNames[j]);
-                    file.Nodes.Add(objectt);
-                }
-                ccsfile.toc.filenames.Add(fileName);
-                ccsfile.toc.FileCount++;
-                for (int j = 0; j < objectsNames.Count; j++)
-                {
-                    ccsfile.toc.objnames.Add(objectsNames[j]);
-                    ccsfile.toc.indexes.Add((ushort)ccsfile.toc.FileCount);
-                }
-                fileStream.Read(typeBytes, 0, typeBytes.Length);
-                int blocksCount = BitConverter.ToInt32(typeBytes, 0);
+				for (int j = 0; j < objectsCount; j++)
+				{
+					string objectName = ReadString(fileStream);
+					objectsNames.Add(objectName);
+				}
+				treeView1.Nodes[0].Nodes.Add(fileName);
+				TreeNode file = treeView1.Nodes[0].Nodes[treeView1.Nodes[0].Nodes.Count - 1];
+				for (int j = 0; j < objectsCount; j++)
+				{
+					TreeNode objectt = new TreeNode(objectsNames[j]);
+					file.Nodes.Add(objectt);
+				}
+				ccsfile.toc.filenames.Add(fileName);
+				ccsfile.toc.FileCount++;
+				for (int j = 0; j < objectsNames.Count; j++)
+				{
+					ccsfile.toc.objnames.Add(objectsNames[j]);
+					ccsfile.toc.indexes.Add((ushort)(ccsfile.toc.FileCount - 1));
+				}
+				fileStream.Read(typeBytes, 0, typeBytes.Length);
+				int blocksCount = BitConverter.ToInt32(typeBytes, 0);
 
-                for (int j = 0; j < ccsfile.toc.ObjCount + objectsCount; j++)
-                {
-                    skipID.Add(new List<int> { 0 });
-                }
+				for (int j = 0; j < ccsfile.toc.ObjCount + objectsCount; j++)
+				{
+					skipID.Add(new List<int> { 0 });
+				}
+				if(blocksCount == 0)
+				{
+					for(int j = 0; j < objectsCount; j++)
+					{
+						ccsfile.toc.ObjCount++;
+					}
+				}
+				List<byte[]> blocks = new List<byte[]>();
+				for (int j = 0; j < blocksCount; j++)
+				{
+					List<byte> block = new List<byte>();
+					byte[] blockTypeBytes = new byte[4];
+					fileStream.Read(blockTypeBytes, 0, blockTypeBytes.Length);
+					int blockType = BitConverter.ToInt16(blockTypeBytes, 0);
+					block.AddRange(blockTypeBytes);
 
-                List<byte[]> blocks = new List<byte[]>();
-                for (int j = 0; j < blocksCount; j++)
-                {
-                    List<byte> block = new List<byte>();
-                    byte[] blockTypeBytes = new byte[4];
-                    fileStream.Read(blockTypeBytes, 0, blockTypeBytes.Length);
-                    int blockType = BitConverter.ToInt16(blockTypeBytes, 0);
-                    block.AddRange(blockTypeBytes);
+					byte[] blockSizeBytes = new byte[4];
+					fileStream.Read(blockSizeBytes, 0, blockSizeBytes.Length);
+					block.AddRange(blockSizeBytes);
+					int blockSize = blockType == 0x0300 ? BitConverter.ToInt32(blockSizeBytes, 0) - 0x32 : BitConverter.ToInt32(blockSizeBytes, 0);
 
-                    byte[] blockSizeBytes = new byte[4];
-                    fileStream.Read(blockSizeBytes, 0, blockSizeBytes.Length);
-                    block.AddRange(blockSizeBytes);
-                    int blockSize = blockType == 0x0300 ? BitConverter.ToInt32(blockSizeBytes, 0) - 0x32 : BitConverter.ToInt32(blockSizeBytes, 0);
+					if (type == 3 && blockType == 0x0800)
+					{
+						byte[] buffer = new byte[4];
+						for (long k = fileStream.Position; k < fileStream.Length; k++)
+						{
+							fileStream.Read(buffer, 0, buffer.Length);
+							bool isBlockType = Block.issValidBlockType(buffer);
+							if (isBlockType == false)
+							{
+								block.AddRange(buffer);
+							}
+							else
+							{
+								fileStream.Seek(-4, SeekOrigin.Current);
+								break;
+							}
+						}
+					}
+					else
+					{
+						byte[] blockDataBytes = new byte[blockSize * 0x4];
+						fileStream.Read(blockDataBytes, 0, blockDataBytes.Length);
+						block.AddRange(blockDataBytes);
+					}
 
-                    if (type == 3 && blockType == 0x0800)
-                    {
-                        byte[] buffer = new byte[4];
-                        for (long k = fileStream.Position; k < fileStream.Length; k++)
-                        {
-                            fileStream.Read(buffer, 0, buffer.Length);
-                            bool isBlockType = Block.issValidBlockType(buffer);
-                            if (isBlockType == false)
-                            {
-                                block.AddRange(buffer);
-                            }
-                            else
-                            {
-                                fileStream.Seek(-4, SeekOrigin.Current);
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        byte[] blockDataBytes = new byte[blockSize * 0x4];
-                        fileStream.Read(blockDataBytes, 0, blockDataBytes.Length);
-                        block.AddRange(blockDataBytes);
-                    }
+					switch (blockType)
+					{
+						case 0x0100:
+							block = FixOBJMDL(block, j, blocksCount, objectsNames);
+							ccsfile.toc.ObjCount++;
+							countName++;
+							break;
+						case 0x0200:
+							block = FixMAT(block, j, blocksCount, objectsNames);
+							ccsfile.toc.ObjCount++;
+							countName++;
+							break;
+						case 0x0300:
+							block = FixTEX(block, j, blocksCount, objectsNames);
+							ccsfile.toc.ObjCount++;
+							countName++;
+							break;
+						case 0x0700:
+							block = FixANM(block, j, blocksCount, objectsNames);
+							ccsfile.toc.ObjCount++;
+							countName++;
+							break;
+						case 0x0800:
+							block = FixRigMDL(block, j, blocksCount, objectsNames);
+                            ccsfile.toc.ObjCount++;
+                            countName++;
+                            break;
+						case 0x0900:
+							block = FixCMP(block, j, blocksCount, objectsNames);
+							ccsfile.toc.ObjCount++;
+							countName++;
+							break;
+						case 0x0A00:
+							block = FixANMBonne(block, j, blocksCount, objectsNames);
+							ccsfile.toc.ObjCount++;
+							countName++;
+							break;
+						case 0x2000:
+							block = FixExternal(block, j, blocksCount);
+							break;
+						case 0x2300:
+							block = FixDefault(block, j, blocksCount);
+							break;
+						default:
+							block = FixDefault(block, j, blocksCount);
+							ccsfile.toc.ObjCount++;
+							countName++;
+							break;
+					}
+					blocks.Add(block.ToArray());
+				}
 
-                    switch (blockType)
-                    {
-                        case 0x0100:
-                            block = FixOBJMDL(block, j, blocksCount, objectsNames);
-                            ccsfile.toc.ObjCount++;
-                            countName++;
-                            break;
-                        case 0x0200:
-                            block = FixMAT(block, j, blocksCount, objectsNames);
-                            ccsfile.toc.ObjCount++;
-                            countName++;
-                            break;
-                        case 0x0300:
-                            block = FixTEX(block, j, blocksCount, objectsNames);
-                            ccsfile.toc.ObjCount++;
-                            countName++;
-                            break;
-                        case 0x0700:
-                            block = FixANM(block, j, blocksCount, objectsNames);
-                            ccsfile.toc.ObjCount++;
-                            countName++;
-                            break;
-                        case 0x0800:
-                            block = FixRigMDL(block, j, blocksCount, objectsNames);
-                            ccsfile.toc.ObjCount++;
-                            countName++;
-                            break;
-                        case 0x0900:
-                            block = FixCMP(block, j, blocksCount, objectsNames);
-                            ccsfile.toc.ObjCount++;
-                            countName++;
-                            break;
-                        case 0x0A00:
-                            block = FixANMBonne(block, j, blocksCount, objectsNames);
-                            ccsfile.toc.ObjCount++;
-                            countName++;
-                            break;
-                        case 0x2000:
-                            block = FixExternal(block, j, blocksCount);
-                            break;
-                        case 0x2300:
-                            block = FixDefault(block, j, blocksCount);
-                            break;
-                        default:
-                            block = FixDefault(block, j, blocksCount);
-                            ccsfile.toc.ObjCount++;
-                            countName++;
-                            break;
-                    }
-                    blocks.Add(block.ToArray());
-                }
+				for (int j = 0; j < blocks.Count; j++)
+				{
+					List<Block> endBlock = new List<Block>();
+					endBlock.Add(ccsfile.blocks[ccsfile.blocks.Count - 2]);
+					endBlock.Add(ccsfile.blocks[ccsfile.blocks.Count - 1]);
+					ccsfile.blocks.Remove(ccsfile.blocks[ccsfile.blocks.Count - 2]);
+					ccsfile.blocks.Remove(ccsfile.blocks[ccsfile.blocks.Count - 1]);
 
-                for (int j = 0; j < blocks.Count; j++)
-                {
-                    List<Block> endBlock = new List<Block>();
-                    endBlock.Add(ccsfile.blocks[ccsfile.blocks.Count - 2]);
-                    endBlock.Add(ccsfile.blocks[ccsfile.blocks.Count - 1]);
-                    ccsfile.blocks.Remove(ccsfile.blocks[ccsfile.blocks.Count - 2]);
-                    ccsfile.blocks.Remove(ccsfile.blocks[ccsfile.blocks.Count - 1]);
-
-                    byte[] currentBlock = blocks[j];
-                    MemoryStream m = new MemoryStream(currentBlock);
-                    m.Seek(0L, SeekOrigin.Begin);
-                    while (m.Position < (long)currentBlock.Length)
-                    {
-                        Block b = Block.ReadBlockFile(m);
-                        ccsfile.blocks.Add(b);
-                    }
-                    ccsfile.blocks.AddRange(endBlock);
-                }
-                MemoryStream i2 = new MemoryStream();
-                foreach (Block block in ccsfile.blocks)
-                {
-                    block.WriteBlock(i2);
-                }
-                ccsfile.raw = i2.ToArray();
-                this.ccsfile = new CCSFile(ccsfile.raw, this.SelectedFileFormat);
-                RefreshStuff();
-                fileStream.Dispose();
-            }
+					byte[] currentBlock = blocks[j];
+					MemoryStream m = new MemoryStream(currentBlock);
+					m.Seek(0L, SeekOrigin.Begin);
+					while (m.Position < (long)currentBlock.Length)
+					{
+						Block b = Block.ReadBlockFile(m);
+						ccsfile.blocks.Add(b);
+					}
+					ccsfile.blocks.AddRange(endBlock);
+				}
+				MemoryStream i2 = new MemoryStream();
+				foreach (Block block in ccsfile.blocks)
+				{
+					block.WriteBlock(i2);
+				}
+				ccsfile.raw = i2.ToArray();
+				this.ccsfile = new CCSFile(ccsfile.raw, this.SelectedFileFormat);
+				RefreshStuff();
+				fileStream.Dispose();
+			}
 		}
-        private List<byte> FixCMP(List<byte> block, int index, int count, List<string> objNames)
-        {
-            byte[] currentBlock = block.ToArray();
-            MemoryStream memoryStream = new MemoryStream(currentBlock);
+		private List<byte> FixCMP(List<byte> block, int index, int count, List<string> objNames)
+		{
+			byte[] currentBlock = block.ToArray();
+			MemoryStream memoryStream = new MemoryStream(currentBlock);
 
 			memoryStream.Seek(0x8, SeekOrigin.Begin);
-            memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount) + 1), 0, 4);
+			memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount)), 0, 4);
 			byte[] objCountBytes = new byte[4];
 			memoryStream.Read(objCountBytes, 0, 4);
 			int objCount = BitConverter.ToInt32(objCountBytes, 0);
@@ -1265,358 +1263,362 @@ namespace CCSFileExplorerWV
 					string searchOBJ = "OBJ_" + objNames[index].Split('_')[1];
 					if (ccsfile.toc.objnames[j] == searchOBJ)
 					{
-                        lastOBJID = j;
-                    }
+						lastOBJID = j;
+					}
 				}
-                memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastOBJID + i + 1)), 0, 4);
-            }
-            return memoryStream.ToArray().ToList();
-        }
+				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastOBJID + i + 1)), 0, 4);
+			}
+			return memoryStream.ToArray().ToList();
+		}
 		private List<byte> FixOBJMDL(List<byte> block, int index, int count, List<string> objNames)
 		{
-            byte[] currentBlock = block.ToArray();
-            MemoryStream memoryStream = new MemoryStream(currentBlock);
-            byte[] oldIndexBytes = new byte[4];
-            memoryStream.Seek(0x8, SeekOrigin.Begin);
+			byte[] currentBlock = block.ToArray();
+			MemoryStream memoryStream = new MemoryStream(currentBlock);
+			byte[] oldIndexBytes = new byte[4];
+			memoryStream.Seek(0x8, SeekOrigin.Begin);
 
-            memoryStream.Read(oldIndexBytes, 0, 4);
-            int oldIndex = BitConverter.ToInt32(oldIndexBytes, 0);
-            memoryStream.Seek(-0x4, SeekOrigin.Current);
-            memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount) + 1), 0, 4);
+			memoryStream.Read(oldIndexBytes, 0, 4);
+			int oldIndex = BitConverter.ToInt32(oldIndexBytes, 0);
+			memoryStream.Seek(-0x4, SeekOrigin.Current);
+			memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount)), 0, 4);
 
-            byte[] fixBonneBytes = new byte[4];
-            memoryStream.Read(fixBonneBytes, 0, 4);
-            int fixBonne = BitConverter.ToInt32(fixBonneBytes, 0);
+			byte[] fixBonneBytes = new byte[4];
+			memoryStream.Read(fixBonneBytes, 0, 4);
+			int fixBonne = BitConverter.ToInt32(fixBonneBytes, 0);
 
-            if (fixBonne != 0)
-            {
-                memoryStream.Seek(-0x4, SeekOrigin.Current);
-                uint newID = ccsfile.toc.ObjCount + 1;
-                int sub = oldIndex - previousID - 1;
-                int dif = oldIndex - fixBonne;
-                uint newMDLOBJ = newID - (uint)dif;
-
-                memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(newMDLOBJ)), 0, 4);
-            }
-            int lastMDLID = 0;
-            for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
-            {
-                string searchOBJ = "MDL_" + objNames[index].Split('_')[1];
-                if (ccsfile.toc.objnames[i] == searchOBJ)
-                {
-                    lastMDLID = i;
-                }
-            }
-            memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastMDLID) + 1), 0, 4);
-            return memoryStream.ToArray().ToList();
-        }
-        private List<byte> FixRigMDL(List<byte> block, int index, int count, List<string> objNames)
-        {
-            byte[] currentBlock = block.ToArray();
-            MemoryStream memoryStream = new MemoryStream(currentBlock);
-
-            memoryStream.Seek(0x8, SeekOrigin.Begin);
-            memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount) + 1), 0, 4);
-
-            memoryStream.Seek(0x10, SeekOrigin.Begin);
-			int type = memoryStream.ReadByte();
-            int unk = memoryStream.ReadByte();
-
-            if (type == 0 && unk != 0)
+			if (fixBonne != 0)
 			{
-                memoryStream.Seek(0x12, SeekOrigin.Begin);
-                int lastMDLID = 0;
-                for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
-                {
-                    string searchOBJ = "MDL_" + objNames[index].Split('_')[1] + "_0";
-                    if (ccsfile.toc.objnames[i] == searchOBJ)
-                    {
-                        lastMDLID = i;
-                    }
+				memoryStream.Seek(-0x4, SeekOrigin.Current);
+				uint newID = ccsfile.toc.ObjCount + 1;
+				int sub = oldIndex - previousID - 1;
+				int dif = oldIndex - fixBonne;
+				uint newMDLOBJ = newID - (uint)dif;
+
+				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(newMDLOBJ)), 0, 4);
+			}
+			int lastMDLID = 0;
+			for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
+			{
+				string searchOBJ = "MDL_" + objNames[index].Split('_')[1];
+				if (ccsfile.toc.objnames[i] == searchOBJ)
+				{
+					lastMDLID = i;
+				}
+			}
+			memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastMDLID) + 1), 0, 4);
+			return memoryStream.ToArray().ToList();
+		}
+		private List<byte> FixRigMDL(List<byte> block, int index, int count, List<string> objNames)
+		{
+			byte[] currentBlock = block.ToArray();
+			MemoryStream memoryStream = new MemoryStream(currentBlock);
+
+			memoryStream.Seek(0x8, SeekOrigin.Begin);
+			memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount)), 0, 4);
+
+			memoryStream.Seek(0x10, SeekOrigin.Begin);
+			int type = memoryStream.ReadByte();
+            memoryStream.Seek(0x12, SeekOrigin.Begin);
+            int subModelCount = memoryStream.ReadByte();
+
+			if ((type == 0 || type == 1) && currentBlock.Length != 0x24)
+			{
+				memoryStream.Seek(0x24, SeekOrigin.Begin);
+				int lastMDLID = 0;
+				for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
+				{
+					string searchOBJ = "MDL_" + objNames[index].Split('_')[1] + "_0";
+					if (ccsfile.toc.objnames[i] == searchOBJ)
+					{
+						lastMDLID = i;
+					}
+				}
+				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastMDLID) + 1), 0, 4);
+				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastMDLID) + 2), 0, 4);
+				for(int k = 0; k < subModelCount;k++)
+				{
+                    ccsfile.toc.ObjCount++;
                 }
-                memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastMDLID) + 1), 0, 4);
-                memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastMDLID) + 2), 0, 4);
-                ccsfile.toc.ObjCount++;
-            }
+			}
 			if(type == 4)
 			{
-                byte[] buffer = new byte[4];
+				byte[] buffer = new byte[4];
 				int meshesCount = memoryStream.ReadByte();
-                memoryStream.Seek(0x5, SeekOrigin.Current);
-                int bonnesCount = memoryStream.ReadByte();
-                memoryStream.Seek(0xA, SeekOrigin.Current);
+				memoryStream.Seek(0x5, SeekOrigin.Current);
+				int bonnesCount = memoryStream.ReadByte();
+				memoryStream.Seek(0xA, SeekOrigin.Current);
 				for(int i = 0; i <= bonnesCount; i++)
 				{
 					 memoryStream.Seek(1, SeekOrigin.Current);
 				}
-                while (memoryStream.Position % 4 != 0)
-                {
-                    memoryStream.Seek(1, SeekOrigin.Current);
-                }
-                byte[] newMaterial = BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount + 2));
+				while (memoryStream.Position % 4 != 0)
+				{
+					memoryStream.Seek(1, SeekOrigin.Current);
+				}
+				byte[] newMaterial = BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount + 1));
 				for (int i = 0; i < meshesCount; i++)
 				{
 					memoryStream.Write(newMaterial, 0, newMaterial.Length);
 					if(i < meshesCount - 1)
 					{
-                        memoryStream.Read(buffer, 0, 4);
+						memoryStream.Read(buffer, 0, 4);
 						memoryStream.Seek(8, SeekOrigin.Current);
 						int vertexCount = BitConverter.ToInt32(buffer, 0);
 						memoryStream.Seek(vertexCount * 0xE, SeekOrigin.Current);
-                        while (memoryStream.Position % 4 != 0)
-                        {
-                            memoryStream.Seek(1, SeekOrigin.Current);
-                        }
-                    }
+						while (memoryStream.Position % 4 != 0)
+						{
+							memoryStream.Seek(1, SeekOrigin.Current);
+						}
+					}
 				}
-            }
-            return memoryStream.ToArray().ToList();
-        }
-        private List<byte> FixMAT(List<byte> block, int index, int count, List<string> objNames)
-        {
-            byte[] currentBlock = block.ToArray();
-            MemoryStream memoryStream = new MemoryStream(currentBlock);
+			}
+			return memoryStream.ToArray().ToList();
+		}
+		private List<byte> FixMAT(List<byte> block, int index, int count, List<string> objNames)
+		{
+			byte[] currentBlock = block.ToArray();
+			MemoryStream memoryStream = new MemoryStream(currentBlock);
 
-            memoryStream.Seek(0x8, SeekOrigin.Begin);
-            memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount) + 1), 0, 4);
-            memoryStream.Seek(0xC, SeekOrigin.Begin);
-            int lastTEXID = 0;
-            for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
-            {
-                string searchOBJ = "TEX_" + objNames[countName].Split('_')[1];
-                if (ccsfile.toc.objnames[i] == searchOBJ)
-                {
-                    lastTEXID = i;
-                }
-            }
+			memoryStream.Seek(0x8, SeekOrigin.Begin);
+			memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount)), 0, 4);
+			memoryStream.Seek(0xC, SeekOrigin.Begin);
+			int lastTEXID = 0;
+			for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
+			{
+				string searchOBJ = "TEX_" + objNames[countName].Split('_')[1];
+				if (ccsfile.toc.objnames[i] == searchOBJ)
+				{
+					lastTEXID = i;
+				}
+			}
 			if(lastTEXID == 0)
 			{
-                SelectTexture texForm = new SelectTexture();
-                for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
-                {
-                    if (ccsfile.toc.objnames[i].Contains("TEX_") == true)
-                    {
-                        texForm.comboBox1.Items.Add(ccsfile.toc.objnames[i]);
-                    }
-                }
+				SelectTexture texForm = new SelectTexture();
+				for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
+				{
+					if (ccsfile.toc.objnames[i].Contains("TEX_") == true)
+					{
+						texForm.comboBox1.Items.Add(ccsfile.toc.objnames[i]);
+					}
+				}
 				texForm.comboBox1.SelectedIndex = 0;
 				if(this.portuguêsToolStripMenuItem.Checked == true)
 				{
-                    MessageBox.Show($"Textura do Material: {objNames[countName]} não foi encontrada, escolha a Textura.");
-                }
+					MessageBox.Show($"Textura do Material: {objNames[countName]} não foi encontrada, escolha a Textura.");
+				}
 				else
 				{
-                    MessageBox.Show($"Material Texture: {objNames[countName]} not found, choose the texture.");
-                }
-                texForm.ShowDialog();
+					MessageBox.Show($"Material Texture: {objNames[countName]} not found, choose the texture.");
+				}
+				texForm.ShowDialog();
 				string texName = texForm.comboBox1.SelectedItem.ToString();
 				int texID = 0;
-                for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
-                {
-                    if (ccsfile.toc.objnames[i] == texName)
-                    {
+				for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
+				{
+					if (ccsfile.toc.objnames[i] == texName)
+					{
 						texID = i;
-                    }
-                }
-                memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(texID) + 1), 0, 4);
-            }
+					}
+				}
+				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(texID) + 1), 0, 4);
+			}
 			else
 			{
-                memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastTEXID) + 1), 0, 4);
-            }
-            return memoryStream.ToArray().ToList();
-        }
-        private List<byte> FixANM(List<byte> block, int index, int count, List<string> objNames)
-        {
+				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastTEXID) + 1), 0, 4);
+			}
+			return memoryStream.ToArray().ToList();
+		}
+		private List<byte> FixANM(List<byte> block, int index, int count, List<string> objNames)
+		{
 			byte[] currentBlock = block.ToArray();
-            MemoryStream memoryStream = new MemoryStream(currentBlock);
+			MemoryStream memoryStream = new MemoryStream(currentBlock);
 
-            memoryStream.Seek(0x8, SeekOrigin.Begin);
-            memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount) + 1), 0, 4);
-            uint position = Convert.ToUInt32(ccsfile.toc.ObjCount - objNames.Count + 2);
-            memoryStream.Seek(0x20, SeekOrigin.Begin);
-            for(int i = 0; i < objNames.Count - 1; i++)
+			memoryStream.Seek(0x8, SeekOrigin.Begin);
+			memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount)), 0, 4);
+			uint position = Convert.ToUInt32(ccsfile.toc.ObjCount - objNames.Count + 2);
+			memoryStream.Seek(0x20, SeekOrigin.Begin);
+			for(int i = 0; i < objNames.Count - 1; i++)
 			{
-                byte[] blockTypeBytes = new byte[4];
+				byte[] blockTypeBytes = new byte[4];
 				memoryStream.Read(blockTypeBytes, 0, 4);
 				int blockType = BitConverter.ToInt32(blockTypeBytes, 0);
 
 				byte[] sizeBytes = new byte[4];
 				memoryStream.Read(sizeBytes, 0, 4);
 				int size = BitConverter.ToInt32(sizeBytes, 0);
-                memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(position + i)), 0, 4);
+				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(position + i)), 0, 4);
 
 				memoryStream.Seek(-0x4, SeekOrigin.Current);
 				byte[] data = new byte[size * 0x4];
-                memoryStream.Read(data, 0, data.Length);
-            }
-            return memoryStream.ToArray().ToList();
-        }
-        private List<byte> FixANMBonne(List<byte> block, int index, int count, List<string> objNames)
-        {
-            byte[] currentBlock = block.ToArray();
-            MemoryStream memoryStream = new MemoryStream(currentBlock);
-            memoryStream.Seek(0x8, SeekOrigin.Begin);
+				memoryStream.Read(data, 0, data.Length);
+			}
+			return memoryStream.ToArray().ToList();
+		}
+		private List<byte> FixANMBonne(List<byte> block, int index, int count, List<string> objNames)
+		{
+			byte[] currentBlock = block.ToArray();
+			MemoryStream memoryStream = new MemoryStream(currentBlock);
+			memoryStream.Seek(0x8, SeekOrigin.Begin);
 
 			byte[] oldIndexBytes = new byte[4];
 			memoryStream.Read(oldIndexBytes, 0, 4);
 			int oldIndex = BitConverter.ToInt32(oldIndexBytes, 0);
-            memoryStream.Seek(-0x4, SeekOrigin.Current);
-            memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount) + 1), 0, 4);
+			memoryStream.Seek(-0x4, SeekOrigin.Current);
+			memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount)), 0, 4);
 
 			byte[] fixBonneBytes = new byte[4];
 			memoryStream.Read(fixBonneBytes, 0, 4);
 			int fixBonne = BitConverter.ToInt32(fixBonneBytes, 0);
 
-            byte[] oldMDLOBJBytes = new byte[4];
-            memoryStream.Read(oldMDLOBJBytes, 0, 4);
-            int oldMDLOBJ = BitConverter.ToInt32(oldMDLOBJBytes, 0);
-            memoryStream.Seek(-0x8, SeekOrigin.Current);
+			byte[] oldMDLOBJBytes = new byte[4];
+			memoryStream.Read(oldMDLOBJBytes, 0, 4);
+			int oldMDLOBJ = BitConverter.ToInt32(oldMDLOBJBytes, 0);
+			memoryStream.Seek(-0x8, SeekOrigin.Current);
 
-            if (fixBonne != 0)
+			if (fixBonne != 0)
 			{
-                uint newID = ccsfile.toc.ObjCount + 1;
-                int sub = oldIndex - previousID - 1;
-                int dif = oldIndex - fixBonne;
-                uint newMDLOBJ = newID - (uint)dif;
-                if(sub != 0)
+				uint newID = ccsfile.toc.ObjCount + 1;
+				int sub = oldIndex - previousID - 1;
+				int dif = oldIndex - fixBonne;
+				uint newMDLOBJ = newID - (uint)dif;
+				if(sub != 0)
 				{
 					skipID[(int)newID][0] = sub;
 				}
 				int newDif = dif;
 				for(int i = 0; i != dif; i++)
 				{
-                    newDif -= skipID[(int)newID - i][0];
+					newDif -= skipID[(int)newID - i][0];
 				}
-                previousID = oldIndex;
+				previousID = oldIndex;
 
-                memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(newID - newDif)), 0, 4);
-            }
+				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(newID - newDif)), 0, 4);
+			}
 			else
 			{
 				if(index != 0)
 				{
-                    previousIDdif += oldIndex - previousID - 1;
-                }
-                previousID = oldIndex;
-                memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(0)), 0, 4);
-            }
+					previousIDdif += oldIndex - previousID - 1;
+				}
+				previousID = oldIndex;
+				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(0)), 0, 4);
+			}
 
-            uint lastIndex = 0;
-            for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
+			uint lastIndex = 0;
+			for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
 			{
 				int objFileIndex = ccsfile.toc.indexes[i];
-                if (ccsfile.toc.objnames[i] == objNames[countName] && ccsfile.toc.filenames[objFileIndex - 1].Contains("\\max\\") == true)
+				if (ccsfile.toc.objnames[i] == objNames[countName] && ccsfile.toc.filenames[objFileIndex - 1].Contains("\\max\\") == true)
 				{
 					lastIndex = (uint)i;
 					break;
-                }
-            }
-            if (lastIndex == 0 && oldMDLOBJ != 0)
-            {
+				}
+			}
+			if (lastIndex == 0 && oldMDLOBJ != 0)
+			{
 				if(objNames[countName].Contains("cmn") == true)
 				{
-                    memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(0)), 0, 4);
-                }
-                else
+					memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(0)), 0, 4);
+				}
+				else
 				{
-                    SelectTexture texForm = new SelectTexture();
-                    for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
-                    {
-                        if (ccsfile.toc.objnames[i].Contains("OBJ_") == true)
-                        {
-                            int objIndex = ccsfile.toc.indexes[i];
-                            if (ccsfile.toc.filenames[objIndex - 1].Contains("anm") == false)
-                            {
-                                texForm.comboBox1.Items.Add(ccsfile.toc.objnames[i]);
-                            }
-                        }
-                    }
-                    texForm.comboBox1.SelectedIndex = 0;
-                    if (this.portuguêsToolStripMenuItem.Checked == true)
+					SelectTexture texForm = new SelectTexture();
+					for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
 					{
-                        MessageBox.Show($"Não foi possível encontrar o modelo associado ao: {objNames[countName]}, escolha o modelo.");
-                    }
-                    else
+						if (ccsfile.toc.objnames[i].Contains("OBJ_") == true)
+						{
+							int objIndex = ccsfile.toc.indexes[i];
+							if (ccsfile.toc.filenames[objIndex - 1].Contains("anm") == false)
+							{
+								texForm.comboBox1.Items.Add(ccsfile.toc.objnames[i]);
+							}
+						}
+					}
+					texForm.comboBox1.SelectedIndex = 0;
+					if (this.portuguêsToolStripMenuItem.Checked == true)
 					{
-                        MessageBox.Show($"Could not find the model associated with: {objNames[countName]}, choose the model.");
-                    }
-                    texForm.ShowDialog();
-                    string texName = texForm.comboBox1.SelectedItem.ToString();
-                    int texID = 0;
-                    for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
-                    {
-                        if (ccsfile.toc.objnames[i] == texName)
-                        {
-                            int objIndex = ccsfile.toc.indexes[i];
-                            if (ccsfile.toc.filenames[objIndex - 1].Contains("anm") == false)
-                            {
-                                texID = i;
-                            }
-                        }
-                    }
-                    memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(texID) + 1), 0, 4);
-                }
-            }
-            else
-            {
-                memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastIndex) + 1), 0, 4);
-            }
-            return memoryStream.ToArray().ToList();
-        }
-        private List<byte> FixExternal(List<byte> block, int index, int count)
-        {
-            byte[] currentIndex = BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount));
-            for (int i = 0; i < currentIndex.Length; i++)
-            {
-                block[8 + i] = currentIndex[i];
-            }
-            return block;
-        }
-        private List<byte> FixDefault(List<byte> block, int index, int count)
-        {
-            byte[] currentIndex = BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount) + 1);
-            for (int i = 0; i < currentIndex.Length; i++)
-            {
-                block[8 + i] = currentIndex[i];
-            }
-            return block;
-        }
-        private List<byte> FixCLT(List<byte> block, int index, int count)
-        {
-            byte[] currentIndex = BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount));
-            for (int i = 0; i < currentIndex.Length; i++)
-            {
-                block[8 + i] = currentIndex[i];
-            }
-            return block;
-        }
-        private List<byte> FixTEX(List<byte> block, int index, int count, List<string> objNames)
+						MessageBox.Show($"Não foi possível encontrar o modelo associado ao: {objNames[countName]}, escolha o modelo.");
+					}
+					else
+					{
+						MessageBox.Show($"Could not find the model associated with: {objNames[countName]}, choose the model.");
+					}
+					texForm.ShowDialog();
+					string texName = texForm.comboBox1.SelectedItem.ToString();
+					int texID = 0;
+					for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
+					{
+						if (ccsfile.toc.objnames[i] == texName)
+						{
+							int objIndex = ccsfile.toc.indexes[i];
+							if (ccsfile.toc.filenames[objIndex - 1].Contains("anm") == false)
+							{
+								texID = i;
+							}
+						}
+					}
+					memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(texID) + 1), 0, 4);
+				}
+			}
+			else
+			{
+				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastIndex) + 1), 0, 4);
+			}
+			return memoryStream.ToArray().ToList();
+		}
+		private List<byte> FixExternal(List<byte> block, int index, int count)
 		{
-            byte[] currentBlock = block.ToArray();
-            MemoryStream memoryStream = new MemoryStream(currentBlock);
+			byte[] currentIndex = BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount));
+			for (int i = 0; i < currentIndex.Length; i++)
+			{
+				block[8 + i] = currentIndex[i];
+			}
+			return block;
+		}
+		private List<byte> FixDefault(List<byte> block, int index, int count)
+		{
+			byte[] currentIndex = BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount));
+			for (int i = 0; i < currentIndex.Length; i++)
+			{
+				block[8 + i] = currentIndex[i];
+			}
+			return block;
+		}
+		private List<byte> FixCLT(List<byte> block, int index, int count)
+		{
+			byte[] currentIndex = BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount));
+			for (int i = 0; i < currentIndex.Length; i++)
+			{
+				block[8 + i] = currentIndex[i];
+			}
+			return block;
+		}
+		private List<byte> FixTEX(List<byte> block, int index, int count, List<string> objNames)
+		{
+			byte[] currentBlock = block.ToArray();
+			MemoryStream memoryStream = new MemoryStream(currentBlock);
 
-            memoryStream.Seek(0x8, SeekOrigin.Begin);
-            memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount) + 1), 0, 4);
-            memoryStream.Seek(0xC, SeekOrigin.Begin);
-            int lastCLTID = 0;
-            for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
-            {
-                string searchOBJ = "CLT_" + objNames[index].Split('_')[1];
-                if (ccsfile.toc.objnames[i] == searchOBJ)
-                {
-                    lastCLTID = i;
-                }
-            }
-            memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastCLTID) + 1), 0, 4);
-            return memoryStream.ToArray().ToList();
+			memoryStream.Seek(0x8, SeekOrigin.Begin);
+			memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount)), 0, 4);
+			memoryStream.Seek(0xC, SeekOrigin.Begin);
+			int lastCLTID = 0;
+			for (int i = 0; i < ccsfile.toc.objnames.Count; i++)
+			{
+				string searchOBJ = "CLT_" + objNames[index].Split('_')[1];
+				if (ccsfile.toc.objnames[i] == searchOBJ)
+				{
+					lastCLTID = i;
+				}
+			}
+			memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastCLTID)), 0, 4);
+			return memoryStream.ToArray().ToList();
 		}
 
 		private string ReadString(FileStream fileStream)
 		{
 			List<byte> byteList = new List<byte>();
-            while (true)
-            {
+			while (true)
+			{
 				byte currentByte = (byte)fileStream.ReadByte();
 				if(currentByte == 0)
 				{
@@ -1626,8 +1628,35 @@ namespace CCSFileExplorerWV
 				{
 					byteList.Add(currentByte);
 				}
-            }
-            return Encoding.GetEncoding("shift-jis").GetString(byteList.ToArray());
-        }
-    }
+			}
+			return Encoding.GetEncoding("shift-jis").GetString(byteList.ToArray());
+		}
+
+		private void fixAllToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			foreach (Block block in ccsfile.blocks)
+			{
+				if(block.BlockID == 0xCCCC0300)
+				{
+					BinaryReader ms = new BinaryReader(new MemoryStream(block.Data));
+					uint cltID = ms.ReadUInt32();
+					block.Data[0x10] = 0xC0;
+					block.Data[0x11] = 0x03;
+					block.Data[0x12] = 0x00;
+					block.Data[0x13] = 0x00;
+					foreach (Block cltBlock in ccsfile.blocks)
+					{
+						if(cltBlock.ID == cltID)
+						{
+							cltBlock.Data[0x8] = 0x80;
+							cltBlock.Data[0x9] = 0x03;
+							cltBlock.Data[0xA] = 0x00;
+							cltBlock.Data[0xB] = 0x03;
+						}
+					}
+				}
+			}
+
+		}
+	}
 }

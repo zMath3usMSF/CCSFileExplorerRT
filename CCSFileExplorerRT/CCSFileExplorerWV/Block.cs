@@ -190,16 +190,23 @@ namespace CCSFileExplorerWV
 		}
 
 		// Token: 0x06000010 RID: 16 RVA: 0x000024C4 File Offset: 0x000006C4
-		public static string ReadFixedLenString(byte[] buff, int pos, int len)
+		public static string ReadFixedLenString(BinaryReader br, int len)
 		{
-			int i = 0;
 			List<byte> fileStrBytes = new List<byte>();
-
-			while (buff[pos] != 0 && i < len)
+			for(int i = 0; i < len; i++)
 			{
-				fileStrBytes.Add(buff[pos++]);
-				i++;
-			}
+				byte b = br.ReadByte();
+				if (b == 0)
+				{
+					while (i < len - 1)
+					{
+						br.BaseStream.Position += 1;
+						i++;
+					}
+					break;
+				}
+                fileStrBytes.Add(b);
+            }
 			return Encoding.GetEncoding("shift-jis").GetString(fileStrBytes.ToArray());
 		}
 
@@ -228,7 +235,7 @@ namespace CCSFileExplorerWV
 			byte[] str = Encoding.GetEncoding("shift-jis").GetBytes(t);
             i.Write(str, 0, str.Length);
 
-            if (t.Length != 0x20)
+            if (str.Length != minsize)
 			{
                 i.WriteByte(0);
                 if (minsize != -1)

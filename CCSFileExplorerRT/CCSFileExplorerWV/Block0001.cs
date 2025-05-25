@@ -8,20 +8,23 @@ namespace CCSFileExplorerWV
 	// Token: 0x02000006 RID: 6
 	public class Block0001 : Block
 	{
+		public static int fileInfo = 0;
 		// Token: 0x06000017 RID: 23 RVA: 0x000025F4 File Offset: 0x000007F4
 		public Block0001(Stream s)
 		{
-			this.Size = Block.ReadUInt32(s);
-			this.ID = Block.ReadUInt32(s);
-			uint size = this.Size - 1U;
-			this.Data = new byte[size * 4U];
-			s.Read(this.Data, 0, (int)(size * 4U));
-			this.Name = Block.ReadFixedLenString(this.Data, 0, 0x20);
-			this.Unknown = new List<uint>();
+			Size = Block.ReadUInt32(s);
+			ID = Block.ReadUInt32(s);
+			uint size = Size - 1U;
+			Data = new byte[size * 4U];
+			s.Read(Data, 0, (int)(size * 4U));
+            BinaryReader dStream = new BinaryReader(new MemoryStream(Data));
+            Name = Block.ReadFixedLenString(dStream, 0x20);
+			Unknown = new List<uint>();
+			fileInfo = dStream.ReadInt32();
 			int i = 0;
 			while ((long)i < (long)((ulong)(size - 8U)))
 			{
-				this.Unknown.Add(BitConverter.ToUInt32(this.Data, i * 4 + 32));
+				Unknown.Add(BitConverter.ToUInt32(Data, i * 4 + 32));
 				i++;
 			}
 		}
@@ -31,21 +34,21 @@ namespace CCSFileExplorerWV
 		{
 			return new TreeNode(string.Concat(new string[]
 			{
-				this.BlockID.ToString("X8"),
+				BlockID.ToString("X8"),
 				"ID:0x",
-				this.ID.ToString("X"),
+				ID.ToString("X"),
 				" Size: 0x",
-				this.Data.Length.ToString("X")
+				Data.Length.ToString("X")
 			}));
 		}
 
 		// Token: 0x06000019 RID: 25 RVA: 0x00002700 File Offset: 0x00000900
 		public override void WriteBlock(Stream s)
 		{
-			Block.WriteUInt32(s, this.BlockID);
-			Block.WriteUInt32(s, (uint)(this.Data.Length / 4 + 1));
-			Block.WriteUInt32(s, this.ID);
-			s.Write(this.Data, 0, this.Data.Length);
+			Block.WriteUInt32(s, BlockID);
+			Block.WriteUInt32(s, (uint)(Data.Length / 4 + 1));
+			Block.WriteUInt32(s, ID);
+			s.Write(Data, 0, Data.Length);
 		}
 
 		// Token: 0x0400000C RID: 12

@@ -15,11 +15,11 @@ namespace CCSFileExplorerWV
 			get
 			{
 				MemoryStream memoryStream = new MemoryStream();
-				memoryStream.Write(BitConverter.GetBytes(this.BlockID), 0, 4);
-				memoryStream.Write(BitConverter.GetBytes(this.Size), 0, 4);
-				memoryStream.Write(BitConverter.GetBytes(this.FileCount + 1U), 0, 4);
-				memoryStream.Write(BitConverter.GetBytes(this.ObjCount + 1U), 0, 4);
-				memoryStream.Write(this.Data, 0, this.Data.Length);
+				memoryStream.Write(BitConverter.GetBytes(BlockID), 0, 4);
+				memoryStream.Write(BitConverter.GetBytes(Size), 0, 4);
+				memoryStream.Write(BitConverter.GetBytes(FileCount + 1U), 0, 4);
+				memoryStream.Write(BitConverter.GetBytes(ObjCount + 1U), 0, 4);
+				memoryStream.Write(Data, 0, Data.Length);
 				return memoryStream.ToArray();
 			}
 		}
@@ -27,32 +27,24 @@ namespace CCSFileExplorerWV
 		// Token: 0x0600001B RID: 27 RVA: 0x000027C8 File Offset: 0x000009C8
 		public Block0002(Stream s)
 		{
-			this.ID = uint.MaxValue;
-			this.Size = Block.ReadUInt32(s);
-			this.FileCount = Block.ReadUInt32(s) - 1U;
-			this.ObjCount = Block.ReadUInt32(s) - 1U;
-			uint size = this.Size;
-			this.Data = new byte[size * 4U];
-			s.Read(this.Data, 0, (int)(size * 4U));
-			int pos = 32;
-			this.filenames = new List<string>();
-			int i = 0;
-			while ((long)i < (long)((ulong)this.FileCount))
+			ID = uint.MaxValue;
+			Size = Block.ReadUInt32(s);
+			FileCount = Block.ReadUInt32(s);
+			ObjCount = Block.ReadUInt32(s);
+			Data = new byte[Size * 4U];
+            s.Read(Data, 0, (int)(Size * 4U));
+            BinaryReader dStream = new BinaryReader(new MemoryStream(Data));
+            filenames = new List<string>();
+			for(int i = 0; i < FileCount; i++)
 			{
-				this.filenames.Add(Block.ReadFixedLenString(this.Data, pos, 0x20));
-				pos += 32;
-				i++;
+				filenames.Add(ReadFixedLenString(dStream, 0x20));
 			}
-			pos += 32;
-			this.objnames = new List<string>();
-			this.indexes = new List<ushort>();
-			int j = 0;
-			while ((long)j < (long)((ulong)this.ObjCount))
+			objnames = new List<string>();
+			indexes = new List<ushort>();
+			for(int i = 0; i <  ObjCount; i++)
 			{
-				this.objnames.Add(Block.ReadFixedLenString(this.Data, pos, 0x1E));
-				this.indexes.Add(BitConverter.ToUInt16(this.Data, pos + 30));
-				pos += 32;
-				j++;
+				objnames.Add(ReadFixedLenString(dStream, 0x1E));
+				indexes.Add(dStream.ReadUInt16());
 			}
 		}
 
@@ -61,37 +53,35 @@ namespace CCSFileExplorerWV
 		{
 			return new TreeNode(string.Concat(new string[]
 			{
-				this.BlockID.ToString("X8"),
+				BlockID.ToString("X8"),
 				"ID:0x",
-				this.ID.ToString("X"),
+				ID.ToString("X"),
 				" Size: 0x",
-				this.Data.Length.ToString("X")
+				Data.Length.ToString("X")
 			}));
 		}
 
 		// Token: 0x0600001D RID: 29 RVA: 0x00002940 File Offset: 0x00000B40
 		public override void WriteBlock(Stream s)
 		{
-			Block.WriteUInt32(s, this.BlockID);
+			Block.WriteUInt32(s, BlockID);
 			MemoryStream i = new MemoryStream();
-			i.Write(new byte[32], 0, 32);
-			foreach (string name in this.filenames)
+			foreach (string name in filenames)
 			{
 				Block.WriteString(i, name, 32);
 			}
-			i.Write(new byte[32], 0, 32);
 			int j = 0;
-			while ((long)j < (long)((ulong)this.ObjCount))
+			while ((long)j < (long)((ulong)ObjCount))
 			{
-				Block.WriteString(i, this.objnames[j], 30);
-				i.Write(BitConverter.GetBytes(this.indexes[j]), 0, 2);
+				Block.WriteString(i, objnames[j], 30);
+				i.Write(BitConverter.GetBytes(indexes[j]), 0, 2);
 				j++;
 			}
 			Block.WriteUInt32(i, 3U);
 			Block.WriteUInt32(i, 0U);
 			Block.WriteUInt32(s, (uint)(i.Length / 4L));
-			Block.WriteUInt32(s, this.FileCount + 1U);
-			Block.WriteUInt32(s, this.ObjCount + 1U);
+			Block.WriteUInt32(s, FileCount);
+			Block.WriteUInt32(s, ObjCount);
 			s.Write(i.ToArray(), 0, (int)i.Length);
 		}
 
