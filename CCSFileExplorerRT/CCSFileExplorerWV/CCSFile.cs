@@ -12,66 +12,66 @@ namespace CCSFileExplorerWV
 		// Token: 0x06000040 RID: 64 RVA: 0x0000377D File Offset: 0x0000197D
 		public CCSFile(byte[] rawBuffer, CCSFile.FileVersionEnum FileVersion)
 		{
-			this.raw = rawBuffer;
-			this.FileVersion = FileVersion;
-			this.Reload();
+			raw = rawBuffer;
+			FileVersion = FileVersion;
+			Reload();
 		}
 
 		// Token: 0x06000041 RID: 65 RVA: 0x0000379C File Offset: 0x0000199C
 		public void Reload()
 		{
-			this.isvalid = false;
-			MemoryStream i = new MemoryStream(this.raw);
+			isvalid = false;
+			MemoryStream i = new MemoryStream(raw);
 			i.Seek(0L, SeekOrigin.Begin);
-			this.blocks = new List<Block>();
-			while (i.Position < (long)this.raw.Length)
+			blocks = new List<Block>();
+			while (i.Position < (long)raw.Length)
 			{
 				Block b = Block.ReadBlock(i);
 				b.CCSFile = this;
-				this.blocks.Add(b);
+				blocks.Add(b);
 			}
 			if (File.Exists("blocks.txt"))
 			{
 				File.Delete("blocks.txt");
 			}
 			StreamWriter sw = new StreamWriter("blocks.txt");
-			foreach (Block b2 in this.blocks)
+			foreach (Block b2 in blocks)
 			{
 				sw.WriteLine(b2.BlockID.ToString("X2") + "\n");
 			}
 			sw.Close();
-			if (this.blocks.Count == 0)
+			if (blocks.Count == 0)
 			{
 				return;
 			}
-			this.isvalid = true;
-			this.header = (Block0001)this.blocks[0];
-			this.toc = (Block0002)this.blocks[1];
-			this.files = new List<FileEntry>();
+			isvalid = true;
+			header = (Block0001)blocks[0];
+			toc = (Block0002)blocks[1];
+			files = new List<FileEntry>();
 			int j = 0;
-			while ((long)j < (long)((ulong)this.toc.FileCount))
+			while ((long)j < (long)((ulong)toc.FileCount))
 			{
-				FileEntry entry = new FileEntry(this.toc.filenames[j]);
+				FileEntry entry = new FileEntry(toc.filenames[j]);
 				int k = 0;
-				while ((long)k < (long)((ulong)this.toc.ObjCount))
+				while ((long)k < (long)((ulong)toc.ObjCount))
 				{
-					if ((int)(this.toc.indexes[k]) == j)
+					if ((int)(toc.indexes[k]) == j)
 					{
-						ObjectEntry obj = new ObjectEntry(this.toc.objnames[k]);
-						for (int l = 0; l < this.blocks.Count; l++)
+						ObjectEntry obj = new ObjectEntry(toc.objnames[k]);
+						for (int l = 0; l < blocks.Count; l++)
 						{
-							if ((ulong)(this.blocks[l].ID) == (ulong)((long)k))
+							if ((ulong)(blocks[l].ID) == (ulong)((long)k))
 							{
-								obj.blocks.Add(this.blocks[l]);
-								this.blocks[l].ObjectEntry = obj;
-								this.blocks[l].FileEntry = entry;
+								obj.blocks.Add(blocks[l]);
+								blocks[l].ObjectEntry = obj;
+								blocks[l].FileEntry = entry;
 							}
 						}
 						entry.objects.Add(obj);
 					}
 					k++;
 				}
-				this.files.Add(entry);
+				files.Add(entry);
 				j++;
 			}
 		}
@@ -80,28 +80,28 @@ namespace CCSFileExplorerWV
 		public void Rebuild()
 		{
 			MemoryStream i = new MemoryStream();
-			foreach (Block block in this.blocks)
+			foreach (Block block in blocks)
 			{
 				block.WriteBlock(i);
 			}
-			this.raw = i.ToArray();
+			raw = isGzip == true ? FileHelper.zipArray(i.ToArray(), header.Name) : i.ToArray();
 		}
 
 		// Token: 0x06000043 RID: 67 RVA: 0x00003A5C File Offset: 0x00001C5C
 		public void Save(string filename)
 		{
-			this.Rebuild();
-			File.WriteAllBytes(filename, this.raw);
+			Rebuild();
+			File.WriteAllBytes(filename, raw);
 		}
 
 		// Token: 0x06000044 RID: 68 RVA: 0x00003A70 File Offset: 0x00001C70
 		public string Info()
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.AppendLine("Arquivo Válido : " + this.isvalid.ToString());
-			if (this.isvalid)
+			sb.AppendLine("Arquivo Válido : " + isvalid.ToString());
+			if (isvalid)
 			{
-				sb.AppendLine(this.files.Count.ToString() + " files loaded");
+				sb.AppendLine(files.Count.ToString() + " files loaded");
 			}
 			return sb.ToString();
 		}
@@ -162,8 +162,10 @@ namespace CCSFileExplorerWV
 		// Token: 0x04000023 RID: 35
 		public bool isvalid;
 
-		// Token: 0x04000024 RID: 36
-		public Block0001 header;
+        public bool isGzip;
+
+        // Token: 0x04000024 RID: 36
+        public Block0001 header;
 
 		// Token: 0x04000025 RID: 37
 		public Block0002 toc;

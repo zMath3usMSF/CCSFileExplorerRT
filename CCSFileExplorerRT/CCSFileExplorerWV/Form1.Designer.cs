@@ -20,16 +20,13 @@ namespace CCSFileExplorerWV
 		{
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("0: MDL_2itw00t0 ring0");
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.pb1 = new System.Windows.Forms.ToolStripProgressBar();
             this.status = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.abrirCCSPACKEDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openCCSFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCCSFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.salvarECompactarEmCCSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fecharToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.unpackBINToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,8 +72,6 @@ namespace CCSFileExplorerWV
             this.rtb1 = new System.Windows.Forms.RichTextBox();
             this.fbd = new System.Windows.Forms.FolderBrowserDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.listView1 = new System.Windows.Forms.ListView();
             toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -94,7 +89,6 @@ namespace CCSFileExplorerWV
             ((System.ComponentModel.ISupportInitialize)(this.pic1)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic2)).BeginInit();
-            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMenuItem2
@@ -144,10 +138,8 @@ namespace CCSFileExplorerWV
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.abrirCCSPACKEDToolStripMenuItem,
             this.openCCSFileToolStripMenuItem,
             this.saveCCSFileToolStripMenuItem,
-            this.salvarECompactarEmCCSToolStripMenuItem,
             this.fecharToolStripMenuItem,
             this.toolStripMenuItem1,
             this.unpackBINToolStripMenuItem,
@@ -159,76 +151,62 @@ namespace CCSFileExplorerWV
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.fileToolStripMenuItem.Text = "Arquivo";
             // 
-            // abrirCCSPACKEDToolStripMenuItem
-            // 
-            this.abrirCCSPACKEDToolStripMenuItem.Name = "abrirCCSPACKEDToolStripMenuItem";
-            this.abrirCCSPACKEDToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.abrirCCSPACKEDToolStripMenuItem.Text = "Abrir CCS (PACKED)";
-            this.abrirCCSPACKEDToolStripMenuItem.Click += new System.EventHandler(this.abrirCCSPACKEDToolStripMenuItem_Click);
-            // 
             // openCCSFileToolStripMenuItem
             // 
             this.openCCSFileToolStripMenuItem.Name = "openCCSFileToolStripMenuItem";
-            this.openCCSFileToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.openCCSFileToolStripMenuItem.Text = "Abrir CCS/TMP (UNPACKED)";
+            this.openCCSFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openCCSFileToolStripMenuItem.Text = "Abrir CCSF";
             this.openCCSFileToolStripMenuItem.Click += new System.EventHandler(this.openCCSFileToolStripMenuItem_Click);
             // 
             // saveCCSFileToolStripMenuItem
             // 
             this.saveCCSFileToolStripMenuItem.Name = "saveCCSFileToolStripMenuItem";
-            this.saveCCSFileToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.saveCCSFileToolStripMenuItem.Text = "Salvar";
+            this.saveCCSFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveCCSFileToolStripMenuItem.Text = "Salvar CCSF";
             this.saveCCSFileToolStripMenuItem.Click += new System.EventHandler(this.saveCCSFileToolStripMenuItem_Click);
-            // 
-            // salvarECompactarEmCCSToolStripMenuItem
-            // 
-            this.salvarECompactarEmCCSToolStripMenuItem.Name = "salvarECompactarEmCCSToolStripMenuItem";
-            this.salvarECompactarEmCCSToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.salvarECompactarEmCCSToolStripMenuItem.Text = "Salvar e Compactar em CCS";
-            this.salvarECompactarEmCCSToolStripMenuItem.Click += new System.EventHandler(this.salvarECompactarEmCCSToolStripMenuItem_Click);
             // 
             // fecharToolStripMenuItem
             // 
             this.fecharToolStripMenuItem.Name = "fecharToolStripMenuItem";
-            this.fecharToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.fecharToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fecharToolStripMenuItem.Text = "Fechar";
             this.fecharToolStripMenuItem.Click += new System.EventHandler(this.fecharToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(222, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // unpackBINToolStripMenuItem
             // 
             this.unpackBINToolStripMenuItem.Name = "unpackBINToolStripMenuItem";
-            this.unpackBINToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.unpackBINToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.unpackBINToolStripMenuItem.Text = "Descompactar BIN";
             this.unpackBINToolStripMenuItem.Click += new System.EventHandler(this.unpackBINToolStripMenuItem_Click);
             // 
             // repackBINToolStripMenuItem
             // 
             this.repackBINToolStripMenuItem.Name = "repackBINToolStripMenuItem";
-            this.repackBINToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.repackBINToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.repackBINToolStripMenuItem.Text = "Recompactar BIN";
             this.repackBINToolStripMenuItem.Click += new System.EventHandler(this.repackBINToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(222, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
             // 
             // recentToolStripMenuItem
             // 
             this.recentToolStripMenuItem.Enabled = false;
             this.recentToolStripMenuItem.Name = "recentToolStripMenuItem";
-            this.recentToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.recentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.recentToolStripMenuItem.Text = "Recente";
             // 
             // sairToolStripMenuItem
             // 
             this.sairToolStripMenuItem.Name = "sairToolStripMenuItem";
-            this.sairToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.sairToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sairToolStripMenuItem.Text = "Sair";
             this.sairToolStripMenuItem.Click += new System.EventHandler(this.sairToolStripMenuItem_Click);
             // 
@@ -466,7 +444,6 @@ namespace CCSFileExplorerWV
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -584,30 +561,6 @@ namespace CCSFileExplorerWV
             this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.listView1);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(350, 352);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Editar EOLD";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // listView1
-            // 
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.listView1.HideSelection = false;
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(151, 352);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.List;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -640,7 +593,6 @@ namespace CCSFileExplorerWV
             ((System.ComponentModel.ISupportInitialize)(this.pic1)).EndInit();
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pic2)).EndInit();
-            this.tabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -682,26 +634,11 @@ namespace CCSFileExplorerWV
 		// Token: 0x04000050 RID: 80
 		private global::System.Windows.Forms.SplitContainer splitContainer2;
 
-		// Token: 0x04000051 RID: 81
-		private global::System.Windows.Forms.TabControl tabControl1;
-
-		// Token: 0x04000052 RID: 82
-		private global::System.Windows.Forms.TabPage tabPage1;
-
-		// Token: 0x04000053 RID: 83
-		private global::Be.Windows.Forms.HexBox hb1;
-
-		// Token: 0x04000054 RID: 84
-		private global::System.Windows.Forms.TabPage tabPage2;
-
 		// Token: 0x04000055 RID: 85
 		private global::System.Windows.Forms.RichTextBox rtb1;
 
 		// Token: 0x04000056 RID: 86
 		private global::System.Windows.Forms.FolderBrowserDialog fbd;
-
-		// Token: 0x04000057 RID: 87
-		private global::System.Windows.Forms.PictureBox pic1;
 
 		// Token: 0x04000058 RID: 88
 		private global::System.Windows.Forms.ToolStripMenuItem selectedBlobToolStripMenuItem;
@@ -712,26 +649,14 @@ namespace CCSFileExplorerWV
 		// Token: 0x0400005B RID: 91
 		private global::System.Windows.Forms.ToolStripMenuItem exportAsBitmapToolStripMenuItem;
 
-		// Token: 0x0400005C RID: 92
-		private global::System.Windows.Forms.ComboBox comboBox1;
-
 		// Token: 0x0400005D RID: 93
 		private global::System.Windows.Forms.ToolStripMenuItem importRawToolStripMenuItem;
 
 		// Token: 0x0400005E RID: 94
 		private global::System.Windows.Forms.ToolStripMenuItem openInImageImporterToolStripMenuItem;
 
-		// Token: 0x0400005F RID: 95
-		private global::System.Windows.Forms.TabPage tabPage3;
-
 		// Token: 0x04000060 RID: 96
 		private global::System.Windows.Forms.ToolStripMenuItem exportToObjToolStripMenuItem;
-
-		// Token: 0x04000061 RID: 97
-		private global::System.Windows.Forms.PictureBox pic2;
-
-		// Token: 0x04000062 RID: 98
-		private global::System.Windows.Forms.ComboBox comboBox2;
 
 		// Token: 0x04000063 RID: 99
 		private global::System.Windows.Forms.Timer timer1;
@@ -772,17 +697,11 @@ namespace CCSFileExplorerWV
 		// Token: 0x0400006F RID: 111
 		private global::System.Windows.Forms.TreeView treeView1;
 
-		// Token: 0x04000070 RID: 112
-		private global::System.Windows.Forms.ToolStripMenuItem abrirCCSPACKEDToolStripMenuItem;
-
 		// Token: 0x04000071 RID: 113
 		private global::System.Windows.Forms.ToolStripMenuItem fecharToolStripMenuItem;
 
 		// Token: 0x04000072 RID: 114
 		private global::System.Windows.Forms.ToolStripMenuItem sairToolStripMenuItem;
-
-		// Token: 0x04000073 RID: 115
-		private global::System.Windows.Forms.ToolStripMenuItem salvarECompactarEmCCSToolStripMenuItem;
 
 		// Token: 0x04000074 RID: 116
 		private global::System.Windows.Forms.ToolStripMenuItem línguaToolStripMenuItem;
@@ -798,7 +717,14 @@ namespace CCSFileExplorerWV
         private System.Windows.Forms.ToolStripMenuItem importarArquivoToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem fixAllToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private Be.Windows.Forms.HexBox hb1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.PictureBox pic1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.PictureBox pic2;
+        private System.Windows.Forms.ComboBox comboBox2;
     }
 }

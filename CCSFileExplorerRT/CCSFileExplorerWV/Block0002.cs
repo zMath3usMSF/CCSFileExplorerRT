@@ -38,13 +38,15 @@ namespace CCSFileExplorerWV
 			for(int i = 0; i < FileCount; i++)
 			{
 				filenames.Add(ReadFixedLenString(dStream, 0x20));
+				if (i == 0) filenames[i] = "\\\\ps2dev2\\prog\\editdata\\";
 			}
 			objnames = new List<string>();
 			indexes = new List<ushort>();
 			for(int i = 0; i <  ObjCount; i++)
 			{
 				objnames.Add(ReadFixedLenString(dStream, 0x1E));
-				indexes.Add(dStream.ReadUInt16());
+                if (i == 0) objnames[i] = "none";
+                indexes.Add(dStream.ReadUInt16());
 			}
 		}
 

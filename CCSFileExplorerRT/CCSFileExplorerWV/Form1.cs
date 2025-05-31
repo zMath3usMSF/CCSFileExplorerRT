@@ -22,17 +22,13 @@ namespace CCSFileExplorerWV
 		// Token: 0x0600005A RID: 90 RVA: 0x00004688 File Offset: 0x00002888
 		public Form1()
 		{
-			this.InitializeComponent();
-			this.language();
-			this.SelectedFileFormat = CCSFile.FileVersionEnum.HACK_GU;
-			if (this.tabControl1.TabPages.Contains(this.tabPage2))
+			InitializeComponent();
+			language();
+			SelectedFileFormat = CCSFile.FileVersionEnum.HACK_GU;
+			if (tabControl1.TabPages.Contains(tabPage2))
 			{
-				this.tabControl1.TabPages.Remove(this.tabPage2);
+				tabControl1.TabPages.Remove(tabPage2);
 			}
-            if (this.tabControl1.TabPages.Contains(this.tabPage4))
-            {
-                this.tabControl1.TabPages.Remove(this.tabPage4);
-            }
             treeView1.MouseClick += treeView1_MouseClick;
 			base.SetStyle(ControlStyles.Opaque | ControlStyles.AllPaintingInWmPaint, true);
 		}
@@ -48,13 +44,13 @@ namespace CCSFileExplorerWV
 			d.Filter = "*.ccs|*.ccs|*.bin|*.bin";
 			if (d.ShowDialog() == DialogResult.OK)
 			{
-				this.fbd.SelectedPath = this.lastfolder;
-				if (this.fbd.ShowDialog() == DialogResult.OK)
+				fbd.SelectedPath = lastfolder;
+				if (fbd.ShowDialog() == DialogResult.OK)
 				{
-					this.lastfolder = this.fbd.SelectedPath + "\\";
+					lastfolder = fbd.SelectedPath + "\\";
 					string fileName = d.FileName;
 					base.Enabled = false;
-					BINHelper.UnpackToFolder(d.FileName, this.lastfolder, this.pb1, this.status);
+					BINHelper.UnpackToFolder(d.FileName, lastfolder, pb1, status);
 					base.Enabled = true;
 				}
 			}
@@ -63,98 +59,94 @@ namespace CCSFileExplorerWV
 		// Token: 0x0600005C RID: 92 RVA: 0x00004788 File Offset: 0x00002988
 		private void language()
 		{
-			if (this.inglêsToolStripMenuItem.Checked)
+			if (inglêsToolStripMenuItem.Checked)
 			{
-				this.fileToolStripMenuItem.Text = "Archive";
-				this.abrirCCSPACKEDToolStripMenuItem.Text = "Open CCS (PACKED)";
-				this.openCCSFileToolStripMenuItem.Text = "Open CCS/TMP (UNPACKED)";
-				this.saveCCSFileToolStripMenuItem.Text = "Save";
-				this.salvarECompactarEmCCSToolStripMenuItem.Text = "Save Packed to CCS";
-				this.fecharToolStripMenuItem.Text = "Close";
-				this.unpackBINToolStripMenuItem.Text = "Unpack BIN";
-				this.repackBINToolStripMenuItem.Text = "Repack BIN";
-				this.recentToolStripMenuItem.Text = "Recently";
-				this.sairToolStripMenuItem.Text = "Exit";
-				this.selectedBlobToolStripMenuItem.Text = "Accion";
-				this.exportRawToolStripMenuItem.Text = "Export Data";
-				this.importRawToolStripMenuItem.Text = "Import Data";
-				this.exportAsBitmapToolStripMenuItem.Text = "Export Texture";
-				this.openInImageImporterToolStripMenuItem.Text = "Open in Importer";
-				this.exportToObjToolStripMenuItem.Text = "Export to obj...";
-				this.extractParentNodeToolStripMenuItem.Text = "Extract";
-				this.extractAllModelsToolStripMenuItem.Text = "Extract Models";
-				this.extractAllTexturesToolStripMenuItem.Text = "Extrair Texturas";
-				this.fileFormatToolStripMenuItem.Text = "Format";
-				this.hackGUToolStripMenuItem.Text = "Naruto";
-				this.viewToolStripMenuItem.Text = "Show";
-				this.autoRotationOnToolStripMenuItem.Text = "Auto Rotate";
-				this.wireframeToolStripMenuItem.Text = "Wireframe";
-				this.tabPage1.Text = "Raw View";
-				this.tabPage2.Text = "Texture View";
-				this.tabPage3.Text = "Model View";
-				this.línguaToolStripMenuItem.Text = "Language";
-				this.inglêsToolStripMenuItem.Text = "English";
-				this.portuguêsToolStripMenuItem.Text = "Portuguese";
-				this.Text = "CCSFile Explorer  / Modified by Raiden and zMath3usMSF";
-				this.sobreToolStripMenuItem.Text = "About";
-				this.exportarArquivoToolStripMenuItem.Text = "Export Archive (Experimental)";
-				this.importarArquivoToolStripMenuItem.Text = "Import Archive (Experimental)";
+				fileToolStripMenuItem.Text = "Archive";
+				openCCSFileToolStripMenuItem.Text = "Open CCSF";
+				saveCCSFileToolStripMenuItem.Text = "Save CCSF";
+				fecharToolStripMenuItem.Text = "Close";
+				unpackBINToolStripMenuItem.Text = "Unpack BIN";
+				repackBINToolStripMenuItem.Text = "Repack BIN";
+				recentToolStripMenuItem.Text = "Recently";
+				sairToolStripMenuItem.Text = "Exit";
+				selectedBlobToolStripMenuItem.Text = "Accion";
+				exportRawToolStripMenuItem.Text = "Export Data";
+				importRawToolStripMenuItem.Text = "Import Data";
+				exportAsBitmapToolStripMenuItem.Text = "Export Texture";
+				openInImageImporterToolStripMenuItem.Text = "Open in Importer";
+				exportToObjToolStripMenuItem.Text = "Export to obj...";
+				extractParentNodeToolStripMenuItem.Text = "Extract";
+				extractAllModelsToolStripMenuItem.Text = "Extract Models";
+				extractAllTexturesToolStripMenuItem.Text = "Extrair Texturas";
+				fileFormatToolStripMenuItem.Text = "Format";
+				hackGUToolStripMenuItem.Text = "Naruto";
+				viewToolStripMenuItem.Text = "Show";
+				autoRotationOnToolStripMenuItem.Text = "Auto Rotate";
+				wireframeToolStripMenuItem.Text = "Wireframe";
+				tabPage1.Text = "Raw View";
+				tabPage2.Text = "Texture View";
+				tabPage3.Text = "Model View";
+				línguaToolStripMenuItem.Text = "Language";
+				inglêsToolStripMenuItem.Text = "English";
+				portuguêsToolStripMenuItem.Text = "Portuguese";
+				Text = "CCSFile Explorer  / Modified by Raiden and zMath3usMSF";
+				sobreToolStripMenuItem.Text = "About";
+				exportarArquivoToolStripMenuItem.Text = "Export Archive (Experimental)";
+				importarArquivoToolStripMenuItem.Text = "Import Archive (Experimental)";
 				return;
 			}
-			if (this.portuguêsToolStripMenuItem.Checked)
+			if (portuguêsToolStripMenuItem.Checked)
 			{
-				this.fileToolStripMenuItem.Text = "Arquivo";
-				this.abrirCCSPACKEDToolStripMenuItem.Text = "Abrir CCS (PACKED)";
-				this.openCCSFileToolStripMenuItem.Text = "Abrir CCS/TMP (UNPACKED)";
-				this.saveCCSFileToolStripMenuItem.Text = "Salvar";
-				this.salvarECompactarEmCCSToolStripMenuItem.Text = "Salvar Packed to CCS";
-				this.fecharToolStripMenuItem.Text = "Fechar";
-				this.unpackBINToolStripMenuItem.Text = "Descompactar BIN";
-				this.repackBINToolStripMenuItem.Text = "Recompactar BIN";
-				this.recentToolStripMenuItem.Text = "Recente";
-				this.sairToolStripMenuItem.Text = "Sair";
-				this.selectedBlobToolStripMenuItem.Text = "Ação";
-				this.exportRawToolStripMenuItem.Text = "Exportar Data";
-				this.importRawToolStripMenuItem.Text = "Importar Data";
-				this.exportAsBitmapToolStripMenuItem.Text = "Exportar Textura";
-				this.openInImageImporterToolStripMenuItem.Text = "Abrir no Importador";
-				this.exportToObjToolStripMenuItem.Text = "Exportar para obj...";
-				this.extractParentNodeToolStripMenuItem.Text = "Extrair";
-				this.extractAllModelsToolStripMenuItem.Text = "Extrair Modelos";
-				this.extractAllTexturesToolStripMenuItem.Text = "Extrair Texturas";
-				this.fileFormatToolStripMenuItem.Text = "Formato";
-				this.hackGUToolStripMenuItem.Text = "Naruto";
-				this.viewToolStripMenuItem.Text = "Ver";
-				this.autoRotationOnToolStripMenuItem.Text = "Auto Rotacionar";
-				this.wireframeToolStripMenuItem.Text = "Wireframe";
-				this.tabPage1.Text = "Ver Dados";
-				this.tabPage2.Text = "Ver Textura";
-				this.tabPage3.Text = "Ver Modelo";
-				this.línguaToolStripMenuItem.Text = "Língua";
-				this.inglêsToolStripMenuItem.Text = "Inglês";
-				this.portuguêsToolStripMenuItem.Text = "Português";
-				this.Text = "CCSFile Explorer  / Modificado por Raiden e zMath3usMSF";
-				this.sobreToolStripMenuItem.Text = "Sobre";
-				this.exportarArquivoToolStripMenuItem.Text = "Exportar Arquivo (Experimental)";
-				this.importarArquivoToolStripMenuItem.Text = "Importar Arquivo (Experimental)";
+				fileToolStripMenuItem.Text = "Arquivo";
+				openCCSFileToolStripMenuItem.Text = "Abrir CCSF";
+				saveCCSFileToolStripMenuItem.Text = "Salvar CCSF";
+				fecharToolStripMenuItem.Text = "Fechar";
+				unpackBINToolStripMenuItem.Text = "Descompactar BIN";
+				repackBINToolStripMenuItem.Text = "Recompactar BIN";
+				recentToolStripMenuItem.Text = "Recente";
+				sairToolStripMenuItem.Text = "Sair";
+				selectedBlobToolStripMenuItem.Text = "Ação";
+				exportRawToolStripMenuItem.Text = "Exportar Data";
+				importRawToolStripMenuItem.Text = "Importar Data";
+				exportAsBitmapToolStripMenuItem.Text = "Exportar Textura";
+				openInImageImporterToolStripMenuItem.Text = "Abrir no Importador";
+				exportToObjToolStripMenuItem.Text = "Exportar para obj...";
+				extractParentNodeToolStripMenuItem.Text = "Extrair";
+				extractAllModelsToolStripMenuItem.Text = "Extrair Modelos";
+				extractAllTexturesToolStripMenuItem.Text = "Extrair Texturas";
+				fileFormatToolStripMenuItem.Text = "Formato";
+				hackGUToolStripMenuItem.Text = "Naruto";
+				viewToolStripMenuItem.Text = "Ver";
+				autoRotationOnToolStripMenuItem.Text = "Auto Rotacionar";
+				wireframeToolStripMenuItem.Text = "Wireframe";
+				tabPage1.Text = "Ver Dados";
+				tabPage2.Text = "Ver Textura";
+				tabPage3.Text = "Ver Modelo";
+				línguaToolStripMenuItem.Text = "Língua";
+				inglêsToolStripMenuItem.Text = "Inglês";
+				portuguêsToolStripMenuItem.Text = "Português";
+				Text = "CCSFile Explorer  / Modificado por Raiden e zMath3usMSF";
+				sobreToolStripMenuItem.Text = "Sobre";
+				exportarArquivoToolStripMenuItem.Text = "Exportar Arquivo (Experimental)";
+				importarArquivoToolStripMenuItem.Text = "Importar Arquivo (Experimental)";
 			}
 		}
 
 		// Token: 0x0600005D RID: 93 RVA: 0x00004B8C File Offset: 0x00002D8C
 		private void repackBINToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.fbd.SelectedPath = this.lastfolder;
-			if (this.fbd.ShowDialog() == DialogResult.OK)
+			fbd.SelectedPath = lastfolder;
+			if (fbd.ShowDialog() == DialogResult.OK)
 			{
-				this.lastfolder = this.fbd.SelectedPath + "\\";
-				new List<string>(Directory.GetFiles(this.lastfolder, "*.ccs", SearchOption.TopDirectoryOnly)).Sort();
+				lastfolder = fbd.SelectedPath + "\\";
+				new List<string>(Directory.GetFiles(lastfolder, "*.ccs", SearchOption.TopDirectoryOnly)).Sort();
 				SaveFileDialog d = new SaveFileDialog();
 				d.Filter = "*.ccs|*.ccs|*.bin|*.bin";
 				if (d.ShowDialog() == DialogResult.OK)
 				{
 					MessageBox.Show("Salvar no formato Naruto?", "Como salvar", MessageBoxButtons.YesNo);
 					base.Enabled = false;
-					BINHelper.Repack(d.FileName, this.lastfolder);
+					BINHelper.Repack(d.FileName, lastfolder);
 					base.Enabled = true;
 				}
 			}
@@ -164,37 +156,48 @@ namespace CCSFileExplorerWV
 		private void openCCSFileToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog d = new OpenFileDialog();
-			d.Filter = "*.tmp|*.tmp|*.ccs|*.ccs";
+			d.Filter = "CyberConnect2 System File (*.ccs, *.tmp)|*.ccs; *.tmp";
 			if (d.ShowDialog() == DialogResult.OK)
 			{
-				lastExtension = Path.GetExtension(d.FileName);
-				this.ccsfile = new CCSFile(File.ReadAllBytes(d.FileName), this.SelectedFileFormat);
-				this.ccsFileName = d.SafeFileName.Remove(d.SafeFileName.Length - 4, 4);
-				this.AddRecent(d.FileName);
-				this.RefreshStuff();
+				lastFileName = Path.GetFileName(d.FileName);
+				byte[] ccsfData = File.ReadAllBytes(d.FileName);
+				if (FileHelper.isGzipMagic(ccsfData))
+				{
+					ccsfile = new CCSFile(FileHelper.unzipArray(ccsfData), SelectedFileFormat);
+					ccsfile.isGzip = true;
+                }
+				else
+				{
+					ccsfile = new CCSFile(ccsfData, SelectedFileFormat);
+                    ccsfile.isGzip = false;
+                }
+				ccsFileName = d.SafeFileName.Remove(d.SafeFileName.Length - 4, 4);
+				AddRecent(d.FileName);
+				RefreshStuff();
 			}
 		}
 
 		// Token: 0x0600005F RID: 95 RVA: 0x00004CB0 File Offset: 0x00002EB0
 		private void saveCCSFileToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			string ext = Path.GetExtension(this.lastExtension);
-            if (this.ccsfile == null)
+			string ext = Path.GetExtension(lastFileName);
+			string name = lastFileName;
+            if (ccsfile == null)
             {
                 return;
             }
-            if (!this.ccsfile.isvalid)
+            if (!ccsfile.isvalid)
             {
                 MessageBox.Show("Você está tentando salvar esse arquivo como inválido.");
                 return;
             }
             SaveFileDialog d = new SaveFileDialog();
-            d.Filter = "*." + ext + "|*." + ext;
-            d.FileName = this.ccsfile.header.Name + ext;
+            d.Filter = "*" + ext + "|*" + ext;
+            d.FileName = name;
             if (d.ShowDialog() == DialogResult.OK)
             {
-                this.ccsfile.Save(d.FileName);
-                this.RefreshStuff();
+                ccsfile.Save(d.FileName);
+                RefreshStuff();
                 MessageBox.Show("Feito.");
             }
         }
@@ -202,8 +205,8 @@ namespace CCSFileExplorerWV
 		// Token: 0x06000060 RID: 96 RVA: 0x00004D3C File Offset: 0x00002F3C
 		private void exportAsBitmapToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			TreeNode sel = this.treeView1.SelectedNode;
-			if (this.ccsfile == null || !this.ccsfile.isvalid || sel == null || this.pic1 == null)
+			TreeNode sel = treeView1.SelectedNode;
+			if (ccsfile == null || !ccsfile.isvalid || sel == null || pic1 == null)
 			{
 				return;
 			}
@@ -223,16 +226,16 @@ namespace CCSFileExplorerWV
 							{
 								goto IL_F2;
 							}
-							this.pic1.Image.Save(d.FileName, ImageFormat.Bmp);
+							pic1.Image.Save(d.FileName, ImageFormat.Bmp);
 						}
 						else
 						{
-							this.pic1.Image.Save(d.FileName, ImageFormat.Jpeg);
+							pic1.Image.Save(d.FileName, ImageFormat.Jpeg);
 						}
 					}
 					else
 					{
-						this.pic1.Image.Save(d.FileName, ImageFormat.Png);
+						pic1.Image.Save(d.FileName, ImageFormat.Png);
 					}
 					MessageBox.Show("Feito.");
 					return;
@@ -246,8 +249,8 @@ namespace CCSFileExplorerWV
 		// Token: 0x06000061 RID: 97 RVA: 0x00004E54 File Offset: 0x00003054
 		private void exportRawToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			TreeNode sel = this.treeView1.SelectedNode;
-			if (this.ccsfile == null || !this.ccsfile.isvalid || sel == null)
+			TreeNode sel = treeView1.SelectedNode;
+			if (ccsfile == null || !ccsfile.isvalid || sel == null)
 			{
 				return;
 			}
@@ -255,7 +258,7 @@ namespace CCSFileExplorerWV
 			{
 				TreeNode obj = sel.Parent;
 				TreeNode file = obj.Parent;
-				ObjectEntry entryo = this.ccsfile.files[file.Index].objects[obj.Index];
+				ObjectEntry entryo = ccsfile.files[file.Index].objects[obj.Index];
 				SaveFileDialog d = new SaveFileDialog();
 				d.Filter = "*.bin|*.bin";
 				d.FileName = entryo.name + ".bin";
@@ -269,41 +272,37 @@ namespace CCSFileExplorerWV
 		// Token: 0x06000062 RID: 98 RVA: 0x00004F20 File Offset: 0x00003120
 		private void RefreshStuff()
 		{
-			this.rtb1.Text = this.ccsfile.Info();
-			this.treeView1.Nodes.Clear();
-			if (!this.ccsfile.isvalid)
+			rtb1.Text = ccsfile.Info();
+			treeView1.Nodes.Clear();
+			if (!ccsfile.isvalid)
 			{
 				return;
 			}
-			TreeNode t = new TreeNode(this.ccsfile.header.Name);
-			foreach (FileEntry entry in this.ccsfile.files)
+			TreeNode t = new TreeNode(ccsfile.header.Name);
+			foreach (FileEntry entry in ccsfile.files)
 			{
 				t.Nodes.Add(entry.ToNode());
 			}
 			t.Expand();
-			this.treeView1.Nodes.Add(t);
+			treeView1.Nodes.Add(t);
 		}
 
 		// Token: 0x06000063 RID: 99 RVA: 0x00004FE8 File Offset: 0x000031E8
 		private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			if (this.tabControl1.TabPages.Contains(this.tabPage2))
+			if (tabControl1.TabPages.Contains(tabPage2))
 			{
-				this.tabControl1.TabPages.Remove(this.tabPage2);
+				tabControl1.TabPages.Remove(tabPage2);
 			}
-			if (this.tabControl1.TabPages.Contains(this.tabPage3))
+			if (tabControl1.TabPages.Contains(tabPage3))
 			{
-				this.tabControl1.TabPages.Remove(this.tabPage3);
+				tabControl1.TabPages.Remove(tabPage3);
 			}
-            if (this.tabControl1.TabPages.Contains(this.tabPage4))
-            {
-                this.tabControl1.TabPages.Remove(this.tabPage4);
-            }
-            this.hb1.ByteProvider = new DynamicByteProvider(new byte[0]);
-			this.timer1.Enabled = false;
-			this.pic1.Image = null;
-			this.pic2.Image = null;
-			if (this.ccsfile == null || !this.ccsfile.isvalid)
+            hb1.ByteProvider = new DynamicByteProvider(new byte[0]);
+			timer1.Enabled = false;
+			pic1.Image = null;
+			pic2.Image = null;
+			if (ccsfile == null || !ccsfile.isvalid)
 			{
 				return;
 			}
@@ -312,85 +311,80 @@ namespace CCSFileExplorerWV
 			{
 				TreeNode obj = sel.Parent;
 				TreeNode file = obj.Parent;
-				ObjectEntry entryo = this.ccsfile.files[file.Index].objects[obj.Index];
-				this.hb1.ByteProvider = new DynamicByteProvider(entryo.blocks[sel.Index].FullBlockData);
+				ObjectEntry entryo = ccsfile.files[file.Index].objects[obj.Index];
+				hb1.ByteProvider = new DynamicByteProvider(entryo.blocks[sel.Index].FullBlockData);
 				if ((entryo.blocks[sel.Index].BlockID & 0xFFFF) == 0x0800)
 				{
-					this.currModel = (Block0800)entryo.blocks[sel.Index];
-					this.currModel.ProcessData();
+					currModel = (Block0800)entryo.blocks[sel.Index];
+					currModel.ProcessData();
 					if (!SceneHelper.init)
 					{
-						SceneHelper.InitializeDevice(this.pic2);
+						SceneHelper.InitializeDevice(pic2);
 					}
-					this.comboBox2.Items.Clear();
-					for (int i = 0; i < this.currModel.models.Count; i++)
+					comboBox2.Items.Clear();
+					for (int i = 0; i < currModel.models.Count; i++)
 					{
-						this.comboBox2.Items.Add("Model " + (i + 1).ToString());
+						comboBox2.Items.Add("Model " + (i + 1).ToString());
 					}
-					if (this.comboBox2.Items.Count > 0)
+					if (comboBox2.Items.Count > 0)
 					{
-						this.comboBox2.SelectedIndex = 0;
+						comboBox2.SelectedIndex = 0;
 					}
-					this.timer1.Enabled = true;
-					this.tabControl1.TabPages.Add(this.tabPage3);
-					this.tabControl1.SelectedTab = this.tabPage3;
+					timer1.Enabled = true;
+					tabControl1.TabPages.Add(tabPage3);
+					tabControl1.SelectedTab = tabPage3;
 				}
-				if((entryo.blocks[sel.Index].BlockID & 0xFFFF) == 0x2400)
-				{
-                    this.tabControl1.TabPages.Add(this.tabPage4);
-                    this.tabControl1.SelectedTab = this.tabPage4;
-                }
 			}
 			if (sel.Level == 1)
 			{
 				string ext = Path.GetExtension(sel.Text).ToLower();
 				if (ext != null && (ext == ".bmp" || ext == ".tif" || ext == ".tga"))
 				{
-					this.comboBox1.Items.Clear();
-					this.currPalettes = new List<Block>();
-					this.currTexture = null;
-					foreach (ObjectEntry obj2 in this.ccsfile.files[sel.Index].objects)
+					comboBox1.Items.Clear();
+					currPalettes = new List<Block>();
+					currTexture = null;
+					foreach (ObjectEntry obj2 in ccsfile.files[sel.Index].objects)
 					{
 						foreach (Block b in obj2.blocks)
 						{
 							if (b.BlockID == 3435922432U)
 							{
-								this.comboBox1.Items.Add(obj2.name);
-								this.currPalettes.Add(b);
+								comboBox1.Items.Add(obj2.name);
+								currPalettes.Add(b);
 							}
 							if (b.BlockID == 3435922176U)
 							{
-								this.currTexture = b;
+								currTexture = b;
 							}
 						}
 					}
-					if (this.comboBox1.Items.Count > 0)
+					if (comboBox1.Items.Count > 0)
 					{
-						this.tabControl1.TabPages.Add(this.tabPage2);
-						this.comboBox1.SelectedIndex = 0;
-						this.tabControl1.SelectedTab = this.tabPage2;
+						tabControl1.TabPages.Add(tabPage2);
+						comboBox1.SelectedIndex = 0;
+						tabControl1.SelectedTab = tabPage2;
 					}
 				}
 			}
-			this.treeView1.Focus();
+			treeView1.Focus();
 		}
 
 		// Token: 0x06000064 RID: 100 RVA: 0x000053A0 File Offset: 0x000035A0
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			int i = this.comboBox1.SelectedIndex;
-			if (i == -1 || this.currTexture == null || this.currPalettes == null || this.currPalettes.Count == 0)
+			int i = comboBox1.SelectedIndex;
+			if (i == -1 || currTexture == null || currPalettes == null || currPalettes.Count == 0)
 			{
 				return;
 			}
-			this.pic1.Image = CCSFile.CreateImage(this.currPalettes[i].Data, this.currTexture.Data);
+			pic1.Image = CCSFile.CreateImage(currPalettes[i].Data, currTexture.Data);
 		}
 
 		// Token: 0x06000065 RID: 101 RVA: 0x00005408 File Offset: 0x00003608
 		private void importRawToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			TreeNode sel = this.treeView1.SelectedNode;
-			if (this.ccsfile == null || !this.ccsfile.isvalid || sel == null)
+			TreeNode sel = treeView1.SelectedNode;
+			if (ccsfile == null || !ccsfile.isvalid || sel == null)
 			{
 				return;
 			}
@@ -398,15 +392,15 @@ namespace CCSFileExplorerWV
 			{
 				TreeNode obj = sel.Parent;
 				TreeNode file = obj.Parent;
-				ObjectEntry entryo = this.ccsfile.files[file.Index].objects[obj.Index];
+				ObjectEntry entryo = ccsfile.files[file.Index].objects[obj.Index];
 				OpenFileDialog d = new OpenFileDialog();
 				d.Filter = "*.bin|*.bin";
 				if (d.ShowDialog() == DialogResult.OK)
 				{
 					entryo.blocks[sel.Index].Data = File.ReadAllBytes(d.FileName);
-					this.ccsfile.Rebuild();
-					this.ccsfile.Reload();
-					this.RefreshStuff();
+					ccsfile.Rebuild();
+					ccsfile.Reload();
+					RefreshStuff();
 				}
 			}
 		}
@@ -414,11 +408,11 @@ namespace CCSFileExplorerWV
 		// Token: 0x06000066 RID: 102 RVA: 0x000054D8 File Offset: 0x000036D8
 		private void openInImageImporterToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (this.ccsfile == null || !this.ccsfile.isvalid || this.treeView1.SelectedNode == null)
+			if (ccsfile == null || !ccsfile.isvalid || treeView1.SelectedNode == null)
 			{
 				return;
 			}
-			TreeNode sel = this.treeView1.SelectedNode;
+			TreeNode sel = treeView1.SelectedNode;
 			if (sel.Level == 1)
 			{
 				if (Path.GetExtension(sel.Text).ToLower() != ".bmp")
@@ -428,15 +422,15 @@ namespace CCSFileExplorerWV
 				}
 				ImageImporter f = new ImageImporter(this);
 				f.index = sel.Index;
-				f.ccsfile = this.ccsfile;
+				f.ccsfile = ccsfile;
 				f.selectedClut = comboBox1.SelectedIndex;
 				f.countClut = comboBox1.Items.Count;
 				f.ShowDialog();
 				if (f.exitok)
 				{
-					this.ccsfile = f.ccsfile;
+					ccsfile = f.ccsfile;
 					f.Close();
-					this.RefreshStuff();
+					RefreshStuff();
 				}
 			}
 		}
@@ -444,17 +438,17 @@ namespace CCSFileExplorerWV
 		// Token: 0x06000067 RID: 103 RVA: 0x00005588 File Offset: 0x00003788
 		private void exportToObjToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (this.ccsfile == null || !this.ccsfile.isvalid || this.treeView1.SelectedNode == null)
+			if (ccsfile == null || !ccsfile.isvalid || treeView1.SelectedNode == null)
 			{
 				return;
 			}
-			TreeNode sel = this.treeView1.SelectedNode;
+			TreeNode sel = treeView1.SelectedNode;
 			if (sel.Level == 3)
 			{
 				TreeNode obj = sel.Parent;
 				TreeNode file = obj.Parent;
-				ObjectEntry entryo = this.ccsfile.files[file.Index].objects[obj.Index];
-				this.hb1.ByteProvider = new DynamicByteProvider(entryo.blocks[sel.Index].FullBlockData);
+				ObjectEntry entryo = ccsfile.files[file.Index].objects[obj.Index];
+				hb1.ByteProvider = new DynamicByteProvider(entryo.blocks[sel.Index].FullBlockData);
 				if (entryo.blocks[sel.Index].BlockID == 3435923456U)
 				{
 					Block0800 mdl = (Block0800)entryo.blocks[sel.Index];
@@ -464,7 +458,7 @@ namespace CCSFileExplorerWV
 					d.FileName = obj.Text + ".obj";
 					if (d.ShowDialog() == DialogResult.OK)
 					{
-						string input = Interaction.InputBox("Which Model to export? (1 - " + mdl.models.Count.ToString() + "). Input 0 to export all.", "Export Model", (this.comboBox2.SelectedIndex + 1).ToString(), -1, -1);
+						string input = Interaction.InputBox("Which Model to export? (1 - " + mdl.models.Count.ToString() + "). Input 0 to export all.", "Export Model", (comboBox2.SelectedIndex + 1).ToString(), -1, -1);
 						if (input != "")
 						{
 							mdl.SaveModel(Convert.ToInt32(input) - 1, d.FileName);
@@ -486,20 +480,20 @@ namespace CCSFileExplorerWV
 			SceneHelper.Render();
 			if (SceneHelper.doRotate)
 			{
-				this.viewRotation += 1f;
-				SceneHelper.SetRotation360(this.viewRotation);
+				viewRotation += 1f;
+				SceneHelper.SetRotation360(viewRotation);
 			}
 		}
 
 		// Token: 0x06000069 RID: 105 RVA: 0x00005750 File Offset: 0x00003950
 		private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			int i = this.comboBox2.SelectedIndex;
-			if (i == -1 || this.currModel == null || !SceneHelper.init)
+			int i = comboBox2.SelectedIndex;
+			if (i == -1 || currModel == null || !SceneHelper.init)
 			{
 				return;
 			}
-			this.currModel.CopyToScene(i);
+			currModel.CopyToScene(i);
 		}
 
 		// Token: 0x0600006A RID: 106 RVA: 0x0000578C File Offset: 0x0000398C
@@ -507,14 +501,14 @@ namespace CCSFileExplorerWV
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				SceneHelper.SetHeight((float)e.Y / (float)this.pic2.Height - 0.5f);
+				SceneHelper.SetHeight((float)e.Y / (float)pic2.Height - 0.5f);
 				SceneHelper.doRotate = false;
-				this.autoRotationOnToolStripMenuItem.Checked = false;
-				SceneHelper.SetRotation360((float)e.X / (float)this.pic2.Width * 360f);
+				autoRotationOnToolStripMenuItem.Checked = false;
+				SceneHelper.SetRotation360((float)e.X / (float)pic2.Width * 360f);
 			}
 			if (e.Button == MouseButtons.Right)
 			{
-				SceneHelper.SetZoomFactor(((float)e.Y / (float)this.pic2.Height + 0.001f) * 3f);
+				SceneHelper.SetZoomFactor(((float)e.Y / (float)pic2.Height + 0.001f) * 3f);
 			}
 		}
 
@@ -527,22 +521,22 @@ namespace CCSFileExplorerWV
 		// Token: 0x0600006C RID: 108 RVA: 0x0000582F File Offset: 0x00003A2F
 		private void autoRotationOnToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			SceneHelper.doRotate = this.autoRotationOnToolStripMenuItem.Checked;
+			SceneHelper.doRotate = autoRotationOnToolStripMenuItem.Checked;
 		}
 
 		// Token: 0x0600006D RID: 109 RVA: 0x00005841 File Offset: 0x00003A41
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			this.CheckRecent();
+			CheckRecent();
 		}
 
 		// Token: 0x0600006E RID: 110 RVA: 0x0000584C File Offset: 0x00003A4C
 		public void CheckRecent()
 		{
-			this.recentToolStripMenuItem.Enabled = false;
-			if (this.recentToolStripMenuItem.HasDropDownItems)
+			recentToolStripMenuItem.Enabled = false;
+			if (recentToolStripMenuItem.HasDropDownItems)
 			{
-				this.recentToolStripMenuItem.DropDownItems.Clear();
+				recentToolStripMenuItem.DropDownItems.Clear();
 			}
 			if (File.Exists("recent.txt"))
 			{
@@ -551,9 +545,9 @@ namespace CCSFileExplorerWV
 					if (line.Trim() != "")
 					{
 						ToolStripMenuItem item = new ToolStripMenuItem(line.Trim());
-						item.Click += this.recentClick;
-						this.recentToolStripMenuItem.DropDownItems.Add(item);
-						this.recentToolStripMenuItem.Enabled = true;
+						item.Click += recentClick;
+						recentToolStripMenuItem.DropDownItems.Add(item);
+						recentToolStripMenuItem.Enabled = true;
 					}
 				}
 			}
@@ -562,8 +556,8 @@ namespace CCSFileExplorerWV
 		// Token: 0x0600006F RID: 111 RVA: 0x000058F9 File Offset: 0x00003AF9
 		public void recentClick(object sender, EventArgs e)
 		{
-			this.ccsfile = new CCSFile(File.ReadAllBytes(((ToolStripMenuItem)sender).Text), this.SelectedFileFormat);
-			this.RefreshStuff();
+			ccsfile = new CCSFile(File.ReadAllBytes(((ToolStripMenuItem)sender).Text), SelectedFileFormat);
+			RefreshStuff();
 		}
 
 		// Token: 0x06000070 RID: 112 RVA: 0x00005924 File Offset: 0x00003B24
@@ -582,23 +576,23 @@ namespace CCSFileExplorerWV
 				result.Add(lines[index++]);
 			}
 			File.WriteAllLines("recent.txt", result.ToArray());
-			this.CheckRecent();
+			CheckRecent();
 		}
 
 		// Token: 0x06000071 RID: 113 RVA: 0x000059A7 File Offset: 0x00003BA7
 		private void wireframeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			SceneHelper.wireframe = this.wireframeToolStripMenuItem.Checked;
+			SceneHelper.wireframe = wireframeToolStripMenuItem.Checked;
 		}
 
 		// Token: 0x06000072 RID: 114 RVA: 0x000059B9 File Offset: 0x00003BB9
 		private void hackGUToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.hackGUToolStripMenuItem.Checked = true;
-			this.SelectedFileFormat = CCSFile.FileVersionEnum.HACK_GU;
-			if (this.ccsfile != null)
+			hackGUToolStripMenuItem.Checked = true;
+			SelectedFileFormat = CCSFile.FileVersionEnum.HACK_GU;
+			if (ccsfile != null)
 			{
-				this.ccsfile.FileVersion = this.SelectedFileFormat;
+				ccsfile.FileVersion = SelectedFileFormat;
 			}
 		}
 
@@ -606,11 +600,11 @@ namespace CCSFileExplorerWV
 		private void extractAllModelsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			string gameName = "";
-			if (this.hackGUToolStripMenuItem.Checked)
+			if (hackGUToolStripMenuItem.Checked)
 			{
 				gameName = "Naruto";
 			}
-			foreach (object obj in this.treeView1.Nodes)
+			foreach (object obj in treeView1.Nodes)
 			{
 				foreach (object obj2 in ((TreeNode)obj).Nodes)
 				{
@@ -622,8 +616,8 @@ namespace CCSFileExplorerWV
 							TreeNode modelFileNode = (TreeNode)obj3;
 							if (modelFileNode.Text.Contains("MDL") && modelFileNode.Nodes.Count != 0)
 							{
-								ObjectEntry entryo = this.ccsfile.files[fileNode.Index].objects[modelFileNode.Index];
-								this.hb1.ByteProvider = new DynamicByteProvider(entryo.blocks[modelFileNode.FirstNode.Index].FullBlockData);
+								ObjectEntry entryo = ccsfile.files[fileNode.Index].objects[modelFileNode.Index];
+								hb1.ByteProvider = new DynamicByteProvider(entryo.blocks[modelFileNode.FirstNode.Index].FullBlockData);
 								if (entryo.blocks[modelFileNode.FirstNode.Index].BlockID == 3435923456U)
 								{
 									Directory.CreateDirectory(string.Concat(new string[]
@@ -631,20 +625,20 @@ namespace CCSFileExplorerWV
 										"./",
 										gameName,
 										"/Models/",
-										this.ccsFileName,
+										ccsFileName,
 										"/",
 										modelFileNode.Text
 									}));
-									this.currModel = (Block0800)entryo.blocks[modelFileNode.FirstNode.Index];
-									this.currModel.ProcessData();
-									for (int modelIndex = 1; modelIndex <= this.currModel.models.Count; modelIndex++)
+									currModel = (Block0800)entryo.blocks[modelFileNode.FirstNode.Index];
+									currModel.ProcessData();
+									for (int modelIndex = 1; modelIndex <= currModel.models.Count; modelIndex++)
 									{
 										string filePath = string.Concat(new string[]
 										{
 											"./",
 											gameName,
 											"/Models/",
-											this.ccsFileName,
+											ccsFileName,
 											"/",
 											modelFileNode.Text,
 											"/",
@@ -653,7 +647,7 @@ namespace CCSFileExplorerWV
 											modelIndex.ToString(),
 											".obj"
 										});
-										this.currModel.SaveModel(Convert.ToInt32(modelIndex) - 1, filePath);
+										currModel.SaveModel(Convert.ToInt32(modelIndex) - 1, filePath);
 									}
 								}
 							}
@@ -668,36 +662,36 @@ namespace CCSFileExplorerWV
 		{
 			string gameName = "";
 			PictureBox pct_Temp = new PictureBox();
-			if (this.hackGUToolStripMenuItem.Checked)
+			if (hackGUToolStripMenuItem.Checked)
 			{
 				gameName = "Naruto";
 			}
-			foreach (object obj in this.treeView1.Nodes)
+			foreach (object obj in treeView1.Nodes)
 			{
 				foreach (object obj2 in ((TreeNode)obj).Nodes)
 				{
 					TreeNode fileNode = (TreeNode)obj2;
 					if (fileNode.Text.Contains("tex"))
 					{
-						this.currPalettes = new List<Block>();
-						this.currTexture = null;
-						foreach (ObjectEntry objectEntry in this.ccsfile.files[fileNode.Index].objects)
+						currPalettes = new List<Block>();
+						currTexture = null;
+						foreach (ObjectEntry objectEntry in ccsfile.files[fileNode.Index].objects)
 						{
 							foreach (Block b in objectEntry.blocks)
 							{
 								if (b.BlockID == 3435922432U)
 								{
-									this.currPalettes.Add(b);
+									currPalettes.Add(b);
 								}
 								if (b.BlockID == 3435922176U)
 								{
-									this.currTexture = b;
+									currTexture = b;
 								}
 							}
 						}
-						if (this.currPalettes.Count > 0)
+						if (currPalettes.Count > 0)
 						{
-							for (int textureIndex = 0; textureIndex < this.currPalettes.Count; textureIndex++)
+							for (int textureIndex = 0; textureIndex < currPalettes.Count; textureIndex++)
 							{
 								string[] array = fileNode.Text.ToString().Split(new char[]
 								{
@@ -710,7 +704,7 @@ namespace CCSFileExplorerWV
 									"./",
 									gameName,
 									"/Textures/",
-									this.ccsFileName,
+									ccsFileName,
 									"/",
 									textureName
 								}));
@@ -719,7 +713,7 @@ namespace CCSFileExplorerWV
 									"./",
 									gameName,
 									"/Textures/",
-									this.ccsFileName,
+									ccsFileName,
 									"/",
 									textureName,
 									"/",
@@ -728,7 +722,7 @@ namespace CCSFileExplorerWV
 									textureIndex.ToString(),
 									".png"
 								});
-								pct_Temp.Image = CCSFile.CreateImage(this.currPalettes[textureIndex].Data, this.currTexture.Data);
+								pct_Temp.Image = CCSFile.CreateImage(currPalettes[textureIndex].Data, currTexture.Data);
 								pct_Temp.Image.Save(filePath, ImageFormat.Png);
 							}
 						}
@@ -746,36 +740,36 @@ namespace CCSFileExplorerWV
 		// Token: 0x06000076 RID: 118 RVA: 0x00006028 File Offset: 0x00004228
 		private void fecharToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.ccsfile.Reload();
-			this.hb1.Refresh();
-			this.treeView1.Nodes.Clear();
-			this.rtb1.Clear();
+			ccsfile.Reload();
+			hb1.Refresh();
+			treeView1.Nodes.Clear();
+			rtb1.Clear();
 		}
 
 		// Token: 0x06000077 RID: 119 RVA: 0x0000605C File Offset: 0x0000425C
 		private void salvarECompactarEmCCSToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (this.ccsfile == null)
+			if (ccsfile == null)
 			{
 				return;
 			}
-			if (!this.ccsfile.isvalid)
+			if (!ccsfile.isvalid)
 			{
 				MessageBox.Show("Você está tentando salvar esse arquivo como inválido.");
 				return;
 			}
 			SaveFileDialog d = new SaveFileDialog();
 			d.Filter = "*.ccs|*.ccs";
-			d.FileName = (this.ccsfile.header.Name + ".ccs").ToUpper();
+			d.FileName = (ccsfile.header.Name + ".ccs").ToUpper();
 			if (d.ShowDialog() == DialogResult.OK)
 			{
 				FileInfo f = new FileInfo(d.FileName);
 				DirectoryInfo directory = f.Directory;
-				this.lastfolder = ((directory != null) ? directory.ToString() : null) + "\\";
-				this.ccsfile.Rebuild();
+				lastfolder = ((directory != null) ? directory.ToString() : null) + "\\";
+				ccsfile.Rebuild();
 				new FileInfo(d.FileName);
-				BINHelper.Repackccs(d.FileName, this.ccsfile.raw, this.ccsfile.header.Name);
-				this.RefreshStuff();
+				BINHelper.Repackccs(d.FileName, ccsfile.raw, ccsfile.header.Name);
+				RefreshStuff();
 				MessageBox.Show("Feito.");
 			}
 		}
@@ -783,36 +777,17 @@ namespace CCSFileExplorerWV
 		// Token: 0x06000078 RID: 120 RVA: 0x00006146 File Offset: 0x00004346
 		private void inglêsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.inglêsToolStripMenuItem.Checked = true;
-			this.portuguêsToolStripMenuItem.Checked = false;
-			this.language();
+			inglêsToolStripMenuItem.Checked = true;
+			portuguêsToolStripMenuItem.Checked = false;
+			language();
 		}
 
 		// Token: 0x06000079 RID: 121 RVA: 0x00006166 File Offset: 0x00004366
 		private void portuguêsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.portuguêsToolStripMenuItem.Checked = true;
-			this.inglêsToolStripMenuItem.Checked = false;
-			this.language();
-		}
-
-		// Token: 0x0600007A RID: 122 RVA: 0x00006188 File Offset: 0x00004388
-		private void abrirCCSPACKEDToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			OpenFileDialog d = new OpenFileDialog();
-			d.Filter = "*.ccs|*.ccs";
-			if (d.ShowDialog() == DialogResult.OK)
-			{
-				FileInfo f = new FileInfo(d.FileName);
-				this.lastfolder = f.Directory.ToString() + "\\";
-				/*BINHelper.UnpackToFolder(d.FileName, this.lastfolder, null, null);*/
-				string tmpFilePath = Path.Combine(lastfolder, Path.GetFileNameWithoutExtension(d.FileName) + ".tmp");
-
-				this.ccsfile = new CCSFile(BINHelper.UnpackTo(d.FileName, this.lastfolder, null, null), this.SelectedFileFormat);
-				this.ccsFileName = d.SafeFileName.Remove(d.SafeFileName.Length - 4, 4);
-				this.AddRecent("tmpFilePath");
-				this.RefreshStuff();
-			}
+			portuguêsToolStripMenuItem.Checked = true;
+			inglêsToolStripMenuItem.Checked = false;
+			language();
 		}
 
 		// Token: 0x0400003B RID: 59
@@ -824,7 +799,7 @@ namespace CCSFileExplorerWV
 		// Token: 0x0400003D RID: 61
 		public string lastfolder;
 
-		public string lastExtension;
+		public string lastFileName;
 
 		// Token: 0x0400003E RID: 62
 		public List<Block> currPalettes;
@@ -849,7 +824,7 @@ namespace CCSFileExplorerWV
 
 		private void sobreToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (this.inglêsToolStripMenuItem.Checked)
+			if (inglêsToolStripMenuItem.Checked)
 			{
 				MessageBox.Show("CCSFileExplorerRT version 3.0, a fork of CCSFileExplorerWV made by WarrantyVoider.\n\nFork by Bit.Raiden and zMath3usMSF.");
 			}
@@ -916,9 +891,9 @@ namespace CCSFileExplorerWV
 		{
 			List<int> indicesToRemove = new List<int>();
 
-			for (int i = 0; i < this.ccsfile.blocks.Count; i++)
+			for (int i = 0; i < ccsfile.blocks.Count; i++)
 			{
-				if (this.ccsfile.blocks[i].ID == this.ccsfile.files[selectedFile].objects[selectedObject].blocks[0].ID)
+				if (ccsfile.blocks[i].ID == ccsfile.files[selectedFile].objects[selectedObject].blocks[0].ID)
 				{
 					indicesToRemove.Add(i);
 				}
@@ -926,9 +901,9 @@ namespace CCSFileExplorerWV
 
 			for (int i = indicesToRemove.Count - 1; i >= 0; i--)
 			{
-				this.ccsfile.blocks.RemoveAt(indicesToRemove[i]);
+				ccsfile.blocks.RemoveAt(indicesToRemove[i]);
 			}
-			this.ccsfile.files[selectedFile].objects[selectedObject].blocks.Clear();
+			ccsfile.files[selectedFile].objects[selectedObject].blocks.Clear();
 		}
 
 		private void exportarArquivoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1240,7 +1215,7 @@ namespace CCSFileExplorerWV
 					block.WriteBlock(i2);
 				}
 				ccsfile.raw = i2.ToArray();
-				this.ccsfile = new CCSFile(ccsfile.raw, this.SelectedFileFormat);
+				ccsfile = new CCSFile(ccsfile.raw, SelectedFileFormat);
 				RefreshStuff();
 				fileStream.Dispose();
 			}
@@ -1402,7 +1377,7 @@ namespace CCSFileExplorerWV
 					}
 				}
 				texForm.comboBox1.SelectedIndex = 0;
-				if(this.portuguêsToolStripMenuItem.Checked == true)
+				if(portuguêsToolStripMenuItem.Checked == true)
 				{
 					MessageBox.Show($"Textura do Material: {objNames[countName]} não foi encontrada, escolha a Textura.");
 				}
@@ -1535,7 +1510,7 @@ namespace CCSFileExplorerWV
 						}
 					}
 					texForm.comboBox1.SelectedIndex = 0;
-					if (this.portuguêsToolStripMenuItem.Checked == true)
+					if (portuguêsToolStripMenuItem.Checked == true)
 					{
 						MessageBox.Show($"Não foi possível encontrar o modelo associado ao: {objNames[countName]}, escolha o modelo.");
 					}
