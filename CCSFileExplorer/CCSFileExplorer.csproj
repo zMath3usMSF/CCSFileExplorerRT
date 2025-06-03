@@ -90,7 +90,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Block2400.cs" />
+    <Compile Include="CCSFileExplorerWV\Block2400.cs" />
     <Compile Include="CCSFileExplorerWV\BINHelper.cs" />
     <Compile Include="CCSFileExplorerWV\Block.cs" />
     <Compile Include="CCSFileExplorerWV\Block0001.cs" />
