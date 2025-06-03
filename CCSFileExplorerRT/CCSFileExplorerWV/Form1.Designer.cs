@@ -1,4 +1,4 @@
-﻿using CCSFileExplorerRT.Properties;
+﻿using CCSFileExplorer.Properties;
 
 namespace CCSFileExplorerWV
 {
@@ -158,7 +158,7 @@ namespace CCSFileExplorerWV
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::CCSFileExplorerRT.Properties.Resources.bannerc;
+            this.pictureBox1.BackgroundImage = global::CCSFileExplorer.Properties.Resources.bannerc;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);

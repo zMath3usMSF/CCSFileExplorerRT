@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28729.10
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCSFileExplorerRT", "CCSFileExplorerRT\CCSFileExplorerRT.csproj", "{8538D1A3-36F3-489A-B48E-99B6091D8C11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCSFileExplorer", "CCSFileExplorerRT\CCSFileExplorer.csproj", "{8538D1A3-36F3-489A-B48E-99B6091D8C11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
