@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{8538D1A3-36F3-489A-B48E-99B6091D8C11}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>CCSFileExplorerRT</RootNamespace>
-    <AssemblyName>CCSFileExplorerRT</AssemblyName>
+    <RootNamespace>CCSFileExplorer</RootNamespace>
+    <AssemblyName>CCSFileExplorer</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationManifest>app.manifest</ApplicationManifest>

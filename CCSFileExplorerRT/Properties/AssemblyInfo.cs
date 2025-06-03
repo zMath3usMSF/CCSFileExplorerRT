@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
 [assembly: AssemblyVersion("3.0.0.0")]
-[assembly: AssemblyTitle("CCSFileExplorerRT")]
+[assembly: AssemblyTitle("CCSFileExplorer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CCSFileExplorerRT")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyProduct("CCSFileExplorer")]
+[assembly: AssemblyCopyright("Copyright ©  2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("458a4d23-bc82-4dfa-a9c0-d228c4d35116")]
