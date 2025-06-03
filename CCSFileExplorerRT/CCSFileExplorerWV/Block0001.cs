@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 
 namespace CCSFileExplorerWV
@@ -9,8 +10,15 @@ namespace CCSFileExplorerWV
 	public class Block0001 : Block
 	{
 		public static int fileInfo = 0;
-		// Token: 0x06000017 RID: 23 RVA: 0x000025F4 File Offset: 0x000007F4
-		public Block0001(Stream s)
+
+        public override Block Clone()
+        {
+            var clone = (Block0001)base.Clone();
+            clone.Name = string.Copy(this.Name);
+            return clone;
+        }
+
+        public Block0001(Stream s)
 		{
 			Size = Block.ReadUInt32(s);
 			ID = Block.ReadUInt32(s);
@@ -18,7 +26,7 @@ namespace CCSFileExplorerWV
 			Data = new byte[size * 4U];
 			s.Read(Data, 0, (int)(size * 4U));
             BinaryReader dStream = new BinaryReader(new MemoryStream(Data));
-            Name = Block.ReadFixedLenString(dStream, 0x20);
+            Name = Block.ReadFixedLenString(dStream, 0x20, '\0');
 			Unknown = new List<uint>();
 			fileInfo = dStream.ReadInt32();
 			int i = 0;
@@ -45,7 +53,20 @@ namespace CCSFileExplorerWV
 		// Token: 0x06000019 RID: 25 RVA: 0x00002700 File Offset: 0x00000900
 		public override void WriteBlock(Stream s)
 		{
-			Block.WriteUInt32(s, BlockID);
+			MemoryStream memoryStream = new MemoryStream();
+			BinaryWriter bw = new BinaryWriter(memoryStream);
+            bw.Write(Encoding.UTF8.GetBytes(Name));
+			int count = 0x20 - Encoding.UTF8.GetBytes(Name).Length;
+            for(int i = 0; i < count; i++)
+			{
+				bw.Write((byte)0);
+			}
+			for(int i = 0; i < Unknown.Count; i++)
+			{
+				bw.Write((UInt32)Unknown[i]);
+			}
+			Data = memoryStream.ToArray();
+            Block.WriteUInt32(s, BlockID);
 			Block.WriteUInt32(s, (uint)(Data.Length / 4 + 1));
 			Block.WriteUInt32(s, ID);
 			s.Write(Data, 0, Data.Length);

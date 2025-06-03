@@ -8,9 +8,16 @@ namespace CCSFileExplorerWV
 	// Token: 0x02000007 RID: 7
 	public class Block0002 : Block
 	{
-		// Token: 0x17000005 RID: 5
-		// (get) Token: 0x0600001A RID: 26 RVA: 0x0000274C File Offset: 0x0000094C
-		public override byte[] FullBlockData
+        public override Block Clone()
+        {
+            var clone = (Block0002)base.Clone();
+            clone.objnames = new List<string>(this.objnames);
+            clone.filenames = new List<string>(this.filenames);
+            clone.indexes = new List<ushort>(this.indexes);
+            return clone;
+        }
+
+        public override byte[] FullBlockData
 		{
 			get
 			{
@@ -37,14 +44,14 @@ namespace CCSFileExplorerWV
             filenames = new List<string>();
 			for(int i = 0; i < FileCount; i++)
 			{
-				filenames.Add(ReadFixedLenString(dStream, 0x20));
+				filenames.Add(ReadFixedLenString(dStream, 0x20, '\0'));
 				if (i == 0) filenames[i] = "\\\\ps2dev2\\prog\\editdata\\";
 			}
 			objnames = new List<string>();
 			indexes = new List<ushort>();
 			for(int i = 0; i <  ObjCount; i++)
 			{
-				objnames.Add(ReadFixedLenString(dStream, 0x1E));
+				objnames.Add(ReadFixedLenString(dStream, 0x1E, '\0'));
                 if (i == 0) objnames[i] = "none";
                 indexes.Add(dStream.ReadUInt16());
 			}

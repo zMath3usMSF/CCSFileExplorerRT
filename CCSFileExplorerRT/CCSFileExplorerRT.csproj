@@ -11,7 +11,7 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>CCSFileExplorerRT.ico</ApplicationIcon>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
     <StartupObject>CCSFileExplorerWV.Program</StartupObject>
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
@@ -90,6 +90,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Block2400.cs" />
     <Compile Include="CCSFileExplorerWV\BINHelper.cs" />
     <Compile Include="CCSFileExplorerWV\Block.cs" />
     <Compile Include="CCSFileExplorerWV\Block0001.cs" />
@@ -217,6 +218,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bannerc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

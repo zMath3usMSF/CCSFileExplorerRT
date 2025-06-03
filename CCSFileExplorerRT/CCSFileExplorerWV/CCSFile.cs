@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace CCSFileExplorerWV
@@ -9,8 +10,27 @@ namespace CCSFileExplorerWV
 	// Token: 0x0200000E RID: 14
 	public class CCSFile
 	{
-		// Token: 0x06000040 RID: 64 RVA: 0x0000377D File Offset: 0x0000197D
-		public CCSFile(byte[] rawBuffer, CCSFile.FileVersionEnum FileVersion)
+        // Token: 0x06000040 RID: 64 RVA: 0x0000377D File Offset: 0x0000197D
+        public CCSFile Clone()
+        {
+            var clone = new CCSFile(new byte[0], FileVersion = FileVersionEnum.HACK_GU)
+            {
+                raw = (byte[])this.raw.Clone(),
+                FileVersion = this.FileVersion,
+                isGzip = this.isGzip,
+                header = (Block0001)this.header.Clone(),
+                toc = (Block0002)this.toc.Clone(),
+                blocks = this.blocks.Select(b => b.Clone()).ToList()
+            };
+
+            // Você pode precisar reconstruir `files` dependendo do uso
+            // mas `Reload()` pode resolver isso:
+            clone.Rebuild(); // opcional
+            clone.Reload();  // para reanalisar os blocos e popular `files`
+            return clone;
+        }
+
+        public CCSFile(byte[] rawBuffer, CCSFile.FileVersionEnum FileVersion)
 		{
 			raw = rawBuffer;
 			FileVersion = FileVersion;

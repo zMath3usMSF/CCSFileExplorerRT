@@ -31,7 +31,11 @@ namespace CCSFileExplorerWV
 			}
             treeView1.MouseClick += treeView1_MouseClick;
 			base.SetStyle(ControlStyles.Opaque | ControlStyles.AllPaintingInWmPaint, true);
-		}
+            tabControl1.TabPages.Remove(tabPage1);
+            tabControl1.TabPages.Remove(tabPage2);
+            tabControl1.TabPages.Remove(tabPage3);
+            tabControl1.TabPages.Remove(tabPage4);
+        }
 		public int countName = 0;
 		public int previousID = 0;
 		public int previousIDdif = 0;
@@ -86,10 +90,10 @@ namespace CCSFileExplorerWV
 				tabPage1.Text = "Raw View";
 				tabPage2.Text = "Texture View";
 				tabPage3.Text = "Model View";
-				línguaToolStripMenuItem.Text = "Language";
+                tabPage4.Text = "Puppet View";
+                línguaToolStripMenuItem.Text = "Language";
 				inglêsToolStripMenuItem.Text = "English";
 				portuguêsToolStripMenuItem.Text = "Portuguese";
-				Text = "CCSFile Explorer  / Modified by Raiden and zMath3usMSF";
 				sobreToolStripMenuItem.Text = "About";
 				exportarArquivoToolStripMenuItem.Text = "Export Archive (Experimental)";
 				importarArquivoToolStripMenuItem.Text = "Import Archive (Experimental)";
@@ -122,10 +126,10 @@ namespace CCSFileExplorerWV
 				tabPage1.Text = "Ver Dados";
 				tabPage2.Text = "Ver Textura";
 				tabPage3.Text = "Ver Modelo";
-				línguaToolStripMenuItem.Text = "Língua";
+                tabPage4.Text = "Ver Puppet";
+                línguaToolStripMenuItem.Text = "Língua";
 				inglêsToolStripMenuItem.Text = "Inglês";
 				portuguêsToolStripMenuItem.Text = "Português";
-				Text = "CCSFile Explorer  / Modificado por Raiden e zMath3usMSF";
 				sobreToolStripMenuItem.Text = "Sobre";
 				exportarArquivoToolStripMenuItem.Text = "Exportar Arquivo (Experimental)";
 				importarArquivoToolStripMenuItem.Text = "Importar Arquivo (Experimental)";
@@ -174,6 +178,7 @@ namespace CCSFileExplorerWV
 				ccsFileName = d.SafeFileName.Remove(d.SafeFileName.Length - 4, 4);
 				AddRecent(d.FileName);
 				RefreshStuff();
+				pictureBox1.Visible = false;
 			}
 		}
 
@@ -196,7 +201,28 @@ namespace CCSFileExplorerWV
             d.FileName = name;
             if (d.ShowDialog() == DialogResult.OK)
             {
+				byte[] textData = new byte[1];
+                foreach (Block block in ccsfile.blocks)
+                {
+                    if (block.BlockID == 0xCCCC2400)
+                    {
+                        Block2400 pptBlock = (Block2400)block;
+						pptBlock.Data = pptBlock.WritePuppet(richTextBox1.Lines);
+						textData = pptBlock.textData;
+                    }
+                }
                 ccsfile.Save(d.FileName);
+				if(textData.Length != 0)
+				{
+                    CCSFile txtPuppet = ccsfile.Clone();
+                    txtPuppet.header.Name = txtPuppet.header.Name + "txt";
+                    txtPuppet.toc.objnames[1] = txtPuppet.toc.objnames[1] + "txt";
+                    txtPuppet.blocks[2].Data = textData;
+                    string novoNome = Path.Combine(
+                        Path.GetDirectoryName(d.FileName),
+                        Path.GetFileNameWithoutExtension(d.FileName) + "TXT" + Path.GetExtension(d.FileName));
+                    txtPuppet.Save(novoNome);
+                }
                 RefreshStuff();
                 MessageBox.Show("Feito.");
             }
@@ -272,7 +298,6 @@ namespace CCSFileExplorerWV
 		// Token: 0x06000062 RID: 98 RVA: 0x00004F20 File Offset: 0x00003120
 		private void RefreshStuff()
 		{
-			rtb1.Text = ccsfile.Info();
 			treeView1.Nodes.Clear();
 			if (!ccsfile.isvalid)
 			{
@@ -290,7 +315,11 @@ namespace CCSFileExplorerWV
 		// Token: 0x06000063 RID: 99 RVA: 0x00004FE8 File Offset: 0x000031E8
 		private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			if (tabControl1.TabPages.Contains(tabPage2))
+            if (tabControl1.TabPages.Contains(tabPage1))
+            {
+                tabControl1.TabPages.Remove(tabPage1);
+            }
+            if (tabControl1.TabPages.Contains(tabPage2))
 			{
 				tabControl1.TabPages.Remove(tabPage2);
 			}
@@ -298,6 +327,11 @@ namespace CCSFileExplorerWV
 			{
 				tabControl1.TabPages.Remove(tabPage3);
 			}
+            if (tabControl1.TabPages.Contains(tabPage4))
+            {
+                tabControl1.TabPages.Remove(tabPage4);
+            }
+            splitContainer2.Panel2Collapsed = true;
             hb1.ByteProvider = new DynamicByteProvider(new byte[0]);
 			timer1.Enabled = false;
 			pic1.Image = null;
@@ -313,6 +347,12 @@ namespace CCSFileExplorerWV
 				TreeNode file = obj.Parent;
 				ObjectEntry entryo = ccsfile.files[file.Index].objects[obj.Index];
 				hb1.ByteProvider = new DynamicByteProvider(entryo.blocks[sel.Index].FullBlockData);
+				if (entryo.blocks[sel.Index].Data.Length != 0)
+				{
+                    tabControl1.TabPages.Add(tabPage1);
+                    tabControl1.SelectedTab = tabPage1;
+                    splitContainer2.Panel2Collapsed = false;
+                }
 				if ((entryo.blocks[sel.Index].BlockID & 0xFFFF) == 0x0800)
 				{
 					currModel = (Block0800)entryo.blocks[sel.Index];
@@ -333,6 +373,28 @@ namespace CCSFileExplorerWV
 					timer1.Enabled = true;
 					tabControl1.TabPages.Add(tabPage3);
 					tabControl1.SelectedTab = tabPage3;
+                    splitContainer2.Panel2Collapsed = false;
+                }
+				if((entryo.blocks[sel.Index].BlockID & 0xFFFF) == 0x2400)
+				{
+					Block2400 block = (Block2400)entryo.blocks[sel.Index];
+					string scriptType = block.CheckScriptType(block.Data);
+					switch (scriptType)
+					{
+						case "puppet":
+                            StringBuilder sb = new StringBuilder();
+							for(int i = 0; i < block.funcs.Count; i++)
+							{
+                                sb.Insert(sb.Length, block.funcs[i] + "\n");
+                            }
+							richTextBox1.Text = sb.ToString();
+                            tabControl1.TabPages.Add(tabPage4);
+                            tabControl1.SelectedTab = tabPage4;
+                            splitContainer2.Panel2Collapsed = false;
+                            break;
+						default:
+							break;
+					}
 				}
 			}
 			if (sel.Level == 1)
@@ -363,6 +425,7 @@ namespace CCSFileExplorerWV
 						tabControl1.TabPages.Add(tabPage2);
 						comboBox1.SelectedIndex = 0;
 						tabControl1.SelectedTab = tabPage2;
+						splitContainer2.Panel2Collapsed = false;
 					}
 				}
 			}
@@ -558,7 +621,8 @@ namespace CCSFileExplorerWV
 		{
 			ccsfile = new CCSFile(File.ReadAllBytes(((ToolStripMenuItem)sender).Text), SelectedFileFormat);
 			RefreshStuff();
-		}
+            pictureBox1.Visible = false;
+        }
 
 		// Token: 0x06000070 RID: 112 RVA: 0x00005924 File Offset: 0x00003B24
 		public void AddRecent(string path)
@@ -743,8 +807,8 @@ namespace CCSFileExplorerWV
 			ccsfile.Reload();
 			hb1.Refresh();
 			treeView1.Nodes.Clear();
-			rtb1.Clear();
-		}
+			pictureBox1.Visible = true;
+        }
 
 		// Token: 0x06000077 RID: 119 RVA: 0x0000605C File Offset: 0x0000425C
 		private void salvarECompactarEmCCSToolStripMenuItem_Click(object sender, EventArgs e)
@@ -826,11 +890,11 @@ namespace CCSFileExplorerWV
 		{
 			if (inglêsToolStripMenuItem.Checked)
 			{
-				MessageBox.Show("CCSFileExplorerRT version 3.0, a fork of CCSFileExplorerWV made by WarrantyVoider.\n\nFork by Bit.Raiden and zMath3usMSF.");
+				MessageBox.Show("CCSFileExplorer version 4.0, a fork of CCSFileExplorerWV by WarrantyVoider. \n\nFork by zMath3usMSF and Bit.Raiden.");
 			}
 			else
 			{
-				MessageBox.Show("CCSFileExplorerRT versão 3.0, um fork do CCSFileExplorerWV feito por WarrantyVoider.\n\nFork por Bit.Raiden e zMath3usMSF.");
+				MessageBox.Show("CCSFileExplorer versão 4.0, um fork do CCSFileExplorerWV feito por WarrantyVoider. \n\nFork por zMath3usMSF e Bit.Raiden.");
 			}
 		}
 		private void treeView1_MouseClick(object sender, MouseEventArgs e)
@@ -1410,7 +1474,7 @@ namespace CCSFileExplorerWV
 
 			memoryStream.Seek(0x8, SeekOrigin.Begin);
 			memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount)), 0, 4);
-			uint position = Convert.ToUInt32(ccsfile.toc.ObjCount - objNames.Count + 2);
+			uint position = Convert.ToUInt32(ccsfile.toc.ObjCount - objNames.Count + 1);
 			memoryStream.Seek(0x20, SeekOrigin.Begin);
 			for(int i = 0; i < objNames.Count - 1; i++)
 			{
@@ -1452,7 +1516,7 @@ namespace CCSFileExplorerWV
 
 			if (fixBonne != 0)
 			{
-				uint newID = ccsfile.toc.ObjCount + 1;
+				uint newID = ccsfile.toc.ObjCount;
 				int sub = oldIndex - previousID - 1;
 				int dif = oldIndex - fixBonne;
 				uint newMDLOBJ = newID - (uint)dif;
@@ -1473,7 +1537,7 @@ namespace CCSFileExplorerWV
 			{
 				if(index != 0)
 				{
-					previousIDdif += oldIndex - previousID - 1;
+					previousIDdif += oldIndex - previousID - 2;
 				}
 				previousID = oldIndex;
 				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(0)), 0, 4);
@@ -1532,18 +1596,18 @@ namespace CCSFileExplorerWV
 							}
 						}
 					}
-					memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(texID) + 1), 0, 4);
+					memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(texID)), 0, 4);
 				}
 			}
 			else
 			{
-				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastIndex) + 1), 0, 4);
+				memoryStream.Write(BitConverter.GetBytes(Convert.ToUInt32(lastIndex)), 0, 4);
 			}
 			return memoryStream.ToArray().ToList();
 		}
 		private List<byte> FixExternal(List<byte> block, int index, int count)
 		{
-			byte[] currentIndex = BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount));
+			byte[] currentIndex = BitConverter.GetBytes(Convert.ToUInt32(ccsfile.toc.ObjCount - 1));
 			for (int i = 0; i < currentIndex.Length; i++)
 			{
 				block[8 + i] = currentIndex[i];
@@ -1607,31 +1671,24 @@ namespace CCSFileExplorerWV
 			return Encoding.GetEncoding("shift-jis").GetString(byteList.ToArray());
 		}
 
-		private void fixAllToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			foreach (Block block in ccsfile.blocks)
-			{
-				if(block.BlockID == 0xCCCC0300)
-				{
-					BinaryReader ms = new BinaryReader(new MemoryStream(block.Data));
-					uint cltID = ms.ReadUInt32();
-					block.Data[0x10] = 0xC0;
-					block.Data[0x11] = 0x03;
-					block.Data[0x12] = 0x00;
-					block.Data[0x13] = 0x00;
-					foreach (Block cltBlock in ccsfile.blocks)
-					{
-						if(cltBlock.ID == cltID)
-						{
-							cltBlock.Data[0x8] = 0x80;
-							cltBlock.Data[0x9] = 0x03;
-							cltBlock.Data[0xA] = 0x00;
-							cltBlock.Data[0xB] = 0x03;
-						}
-					}
-				}
-			}
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
 
-		}
-	}
+        }
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void fixAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void splitContainer2_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+
+        }
+    }
 }

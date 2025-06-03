@@ -10,9 +10,12 @@ namespace CCSFileExplorerWV
 	// Token: 0x02000005 RID: 5
 	public abstract class Block
 	{
-		// Token: 0x17000004 RID: 4
-		// (get) Token: 0x0600000B RID: 11 RVA: 0x000023B0 File Offset: 0x000005B0
-		public virtual byte[] FullBlockData
+        public virtual Block Clone()
+        {
+            return (Block)this.MemberwiseClone();
+        }
+
+        public virtual byte[] FullBlockData
 		{
 			get
 			{
@@ -113,39 +116,42 @@ namespace CCSFileExplorerWV
 		// Token: 0x0600000E RID: 14 RVA: 0x00002418 File Offset: 0x00000618
 		public static Block ReadBlock(Stream s)
 		{
-			uint type = Block.ReadUInt32(s);
+			uint type = Block.ReadUInt32(s) & 0xFFFF;
 			Block result;
 			switch (type)
 			{
-			case 3435921409U:
+			case 0x0001:
 				result = new Block0001(s);
 				goto IL_6F;
-			case 3435921410U:
+			case 0x0002:
 				result = new Block0002(s);
 				goto IL_6F;
-			case 3435921411U:
-			case 3435921412U:
+			case 0x0003:
+			case 0x0004:
 				break;
-			case 3435921413U:
+			case 0x0005:
 				result = new Block0005(s);
 				goto IL_6F;
-			default:
-				if (type == 3435922176U)
-				{
-					result = new Block0300(s);
-					goto IL_6F;
-				}
-				if (type == 3435923456U)
-				{
-					result = new Block0800(s);
-					goto IL_6F;
-				}
-				break;
+            case 0x2400:
+                result = new Block2400(s);
+                goto IL_6F;
+            default:
+			if (type == 0x0300)
+			{
+				result = new Block0300(s);
+				goto IL_6F;
+			}
+			if (type == 0x0800)
+			{
+				result = new Block0800(s);
+				goto IL_6F;
+			}
+			break;
 			}
 			result = new BlockDefault(s);
 			IL_6F:
-			result.BlockID = type;
-			return result;
+			result.BlockID = (uint)((0xCCCC << 16) | type);
+            return result;
 		}
         public static Block ReadBlockFile(Stream s)
         {
@@ -177,8 +183,8 @@ namespace CCSFileExplorerWV
                     break;
             }
             result = new BlockDefault(s);
-			IL_6F:
-            result.BlockID = type;
+IL_6F:
+			result.BlockID = type;
             return result;
         }
         // Token: 0x0600000F RID: 15 RVA: 0x0000249C File Offset: 0x0000069C
@@ -190,38 +196,19 @@ namespace CCSFileExplorerWV
 		}
 
 		// Token: 0x06000010 RID: 16 RVA: 0x000024C4 File Offset: 0x000006C4
-		public static string ReadFixedLenString(BinaryReader br, int len)
+		public static string ReadFixedLenString(BinaryReader br, int len, char t)
 		{
-			List<byte> fileStrBytes = new List<byte>();
-			for(int i = 0; i < len; i++)
-			{
-				byte b = br.ReadByte();
-				if (b == 0)
-				{
-					while (i < len - 1)
-					{
-						br.BaseStream.Position += 1;
-						i++;
-					}
-					break;
-				}
+            List<byte> fileStrBytes = new List<byte>();
+            while (fileStrBytes.Count != len)
+            {
+                byte b = br.ReadByte();
+                if (b == t || b == 0) break;
                 fileStrBytes.Add(b);
             }
-			return Encoding.GetEncoding("shift-jis").GetString(fileStrBytes.ToArray());
+            if(len >= 0) br.BaseStream.Position += len - fileStrBytes.Count - 1;
+            return Encoding.GetEncoding("shift-jis").GetString(fileStrBytes.ToArray());
 		}
 
-		// Token: 0x06000011 RID: 17 RVA: 0x00002500 File Offset: 0x00000700
-		public static string ReadString(byte[] buff, int pos)
-		{
-			string result = "";
-			while (buff[pos] != 0)
-			{
-				string str = result;
-				char c = (char)buff[pos++];
-				result = str + c.ToString();
-			}
-			return result;
-		}
         // Token: 0x06000012 RID: 18 RVA: 0x00002532 File Offset: 0x00000732
         public static void WriteUInt32(Stream s, uint u)
 		{
