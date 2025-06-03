@@ -16,7 +16,6 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace CCSFileExplorerWV
 {
-	// Token: 0x02000014 RID: 20
 	public partial class Form1 : Form
 	{
 		// Token: 0x0600005A RID: 90 RVA: 0x00004688 File Offset: 0x00002888
